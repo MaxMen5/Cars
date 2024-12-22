@@ -4,16 +4,16 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import ru.bikchuraev.api.entity.Body;
 import ru.bikchuraev.server.dao.interfaces.AbstractDao;
-import ru.bikchuraev.server.dao.interfaces.IGenreDao;
+import ru.bikchuraev.server.dao.interfaces.IBodyDao;
 
 import java.util.List;
 
 @Component
 @Lazy
-public class PgGenreDao extends AbstractDao<Body> implements IGenreDao {
+public class PgBodyDao extends AbstractDao<Body> implements IBodyDao {
 
     @Override
     public List<Body> findAll() {
-        return query("select * from genre order by id");
+        return query("select * from body order by id");
     }
 }

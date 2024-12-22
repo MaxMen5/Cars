@@ -43,8 +43,8 @@ public class BookPanel extends JPanel {
 
     @PostConstruct
     public void init() {
-        carLists.setAuthors(carsServerService.loadSmallAuthors());
-        carLists.setBodies(carsServerService.loadAllGenres());
+        carLists.setAuthors(carsServerService.loadSmallMakers());
+        carLists.setBodies(carsServerService.loadAllBody());
 
         createGUI();
     }
@@ -115,7 +115,7 @@ public class BookPanel extends JPanel {
         carFilter.setGenre(filterGenreField.getText());
         carFilter.setPage(filterPagesField.getText());
 
-        List<FullCar> allBooks = carsServerService.loadAllBooks(carFilter);
+        List<FullCar> allBooks = carsServerService.loadAllCars(carFilter);
         tableModel.initWith(allBooks);
         table.revalidate();
         table.repaint();
@@ -130,7 +130,7 @@ public class BookPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             EditBookDialog editBookDialog = new EditBookDialog(carLists, bookEdit -> {
-                carsServerService.saveBook(bookEdit);
+                carsServerService.saveCar(bookEdit);
                 refreshTableData();
                 authorPanel.refreshTableData();
             });
@@ -178,7 +178,7 @@ public class BookPanel extends JPanel {
             carEdit.setPages((Integer) tableModel.getValueAt(selectedRowIndex, 7));
 
             EditBookDialog editBookDialog = new EditBookDialog(carLists, carEdit, changedBook -> {
-                carsServerService.updateBook(selectedBookId, changedBook);
+                carsServerService.updateCar(selectedBookId, changedBook);
                 refreshTableData();
                 authorPanel.refreshTableData();
             });
@@ -215,7 +215,7 @@ public class BookPanel extends JPanel {
                     "Вопрос",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                carsServerService.deleteBookById(selectedBookId);
+                carsServerService.deleteCarById(selectedBookId);
                 refreshTableData();
                 authorPanel.refreshTableData();
             }

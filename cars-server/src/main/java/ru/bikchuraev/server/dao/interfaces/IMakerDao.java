@@ -10,7 +10,7 @@ import ru.bikchuraev.api.entity.Maker;
 
 import java.util.List;
 
-public interface IAuthorDao extends IDao<Maker> {
+public interface IMakerDao extends IDao<Maker> {
 
     @Override
     default RowMapper<Maker> rowMapper() {
@@ -18,9 +18,9 @@ public interface IAuthorDao extends IDao<Maker> {
             Maker maker = new Maker();
             maker.setId(resultSet.getInt("id"));
             maker.setName(resultSet.getString("name"));
-            maker.setCountryId(resultSet.getInt("author_country_id"));
+            maker.setCountryId(resultSet.getInt("maker_country_id"));
             maker.setBirthYear(resultSet.getInt("birthday_year"));
-            maker.setBookList(resultSet.getString("book_list"));
+            maker.setBookList(resultSet.getString("car_list"));
             return maker;
         };
     }
@@ -31,36 +31,36 @@ public interface IAuthorDao extends IDao<Maker> {
     List<FullMaker> findAll(MakerFilter filter);
 
     @Transactional
-    List<SmallMaker> findSmallAuthors();
+    List<SmallMaker> findSmallMakers();
 
     @Transactional
-    void deleteAuthorById(Integer id);
+    void deleteMakerById(Integer id);
 
     @Transactional
-    void saveAuthor(MakerEdit author);
+    void saveMaker(MakerEdit maker);
 
     @Transactional
-    void update(Integer Id, MakerEdit author);
+    void update(Integer Id, MakerEdit maker);
 
     default RowMapper<SmallMaker> smallRowMapper() {
         return (resultSet, i) -> {
-            SmallMaker author = new SmallMaker();
-            author.setId(resultSet.getInt("id"));
-            author.setName(resultSet.getString("name"));
-            return author;
+            SmallMaker maker = new SmallMaker();
+            maker.setId(resultSet.getInt("id"));
+            maker.setName(resultSet.getString("name"));
+            return maker;
         };
     }
 
     default RowMapper<FullMaker> fullRowMapper() {
         return (resultSet, i) -> {
-            FullMaker author = new FullMaker();
-            author.setId(resultSet.getInt("id"));
-            author.setName(resultSet.getString("name"));
-            author.setCountryId(resultSet.getInt("author_country_id"));
-            author.setCountryName(resultSet.getString("author_country_name"));
-            author.setBirthYear(resultSet.getInt("birthday_year"));
-            author.setBookList(resultSet.getString("book_list"));
-            return author;
+            FullMaker maker = new FullMaker();
+            maker.setId(resultSet.getInt("id"));
+            maker.setName(resultSet.getString("name"));
+            maker.setCountryId(resultSet.getInt("maker_country_id"));
+            maker.setCountryName(resultSet.getString("country_name"));
+            maker.setBirthYear(resultSet.getInt("birthday_year"));
+            maker.setBookList(resultSet.getString("book_list"));
+            return maker;
         };
     }
 }

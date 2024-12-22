@@ -8,7 +8,7 @@ import ru.bikchuraev.api.editClasses.FullMaker;
 import ru.bikchuraev.api.editClasses.SmallMaker;
 import ru.bikchuraev.api.entity.Maker;
 import ru.bikchuraev.server.dao.interfaces.AbstractDao;
-import ru.bikchuraev.server.dao.interfaces.IAuthorDao;
+import ru.bikchuraev.server.dao.interfaces.IMakerDao;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import static ru.bikchuraev.server.utils.ServerUtils.isBlank;
 
 @Component
 @Lazy
-public class PgAuthorDao extends AbstractDao<Maker> implements IAuthorDao {
+public class PgMakerDao extends AbstractDao<Maker> implements IMakerDao {
 
     @Override
     public List<FullMaker> findAll(MakerFilter filter) {
@@ -37,17 +37,17 @@ public class PgAuthorDao extends AbstractDao<Maker> implements IAuthorDao {
     }
 
     @Override
-    public List<SmallMaker> findSmallAuthors() {
+    public List<SmallMaker> findSmallMakers() {
         return query("select id, name from author order by id", smallRowMapper());
     }
 
     @Override
-    public void deleteAuthorById(Integer id) {
+    public void deleteMakerById(Integer id) {
         update("delete from author where id = " + id);
     }
 
     @Override
-    public void saveAuthor(MakerEdit author) {
+    public void saveMaker(MakerEdit author) {
         update("insert into author (name, author_country_id, birthday_year) values ('" +
                 author.getName() + "', " +
                 author.getCountry().getId() + ", " +

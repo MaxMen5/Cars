@@ -120,7 +120,7 @@ public class AuthorPanel extends JPanel {
         filter.setCountry(filterCountryField.getText());
         filter.setYear(filterYearField.getText());
 
-        List<FullMaker> allAuthors = carsServerService.loadAllAuthors(filter);
+        List<FullMaker> allAuthors = carsServerService.loadAllMakers(filter);
         tableModel.initWith(allAuthors);
         table.revalidate();
         table.repaint();
@@ -136,10 +136,10 @@ public class AuthorPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
 
             authorList.setCountry(carsServerService.loadAllCountries());
-            authorList.setBook(carsServerService.loadAllBooks());
+            authorList.setBook(carsServerService.loadAllCars());
 
             EditAuthorDialog editauthorDialog = new EditAuthorDialog(authorList, authorEdit -> {
-                carsServerService.saveAuthor(authorEdit);
+                carsServerService.saveMaker(authorEdit);
                 refreshTableData();
                 bookPanel.refreshTableData();
             });
@@ -178,13 +178,13 @@ public class AuthorPanel extends JPanel {
 
             makerEdit.setCountry(country);
             makerEdit.setYear((Integer) tableModel.getValueAt(selectedRowIndex, 4));
-            makerEdit.setBook(carsServerService.loadAuthorBooks(selectedAuthorId));
+            makerEdit.setBook(carsServerService.loadMakerCars(selectedAuthorId));
 
             authorList.setCountry(carsServerService.loadAllCountries());
-            authorList.setBook(carsServerService.loadNotAllBooks(selectedAuthorId));
+            authorList.setBook(carsServerService.loadNotAllCars(selectedAuthorId));
 
             EditAuthorDialog editAuthorDialog = new EditAuthorDialog(authorList, makerEdit, changedAuthor -> {
-                carsServerService.updateAuthor(selectedAuthorId, changedAuthor);
+                carsServerService.updateMaker(selectedAuthorId, changedAuthor);
                 refreshTableData();
                 bookPanel.refreshTableData();
             });
@@ -221,8 +221,8 @@ public class AuthorPanel extends JPanel {
                     "Вопрос",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                carsServerService.deleteAuthorById(selectedAuthorId);
-                carsServerService.deleteAuthorBooks(selectedAuthorId);
+                carsServerService.deleteMakerById(selectedAuthorId);
+                carsServerService.deleteMakerCars(selectedAuthorId);
                 refreshTableData();
                 bookPanel.refreshTableData();
             }

@@ -16,35 +16,35 @@ public interface CarsServerService {
 
     boolean isLoggedIn();
 
-    List<FullMaker> loadAllAuthors(MakerFilter filter);
+    List<FullMaker> loadAllMakers(MakerFilter filter);
 
     List<Country> loadAllCountries();
 
-    List<FullCar> loadAllBooks();
+    List<FullCar> loadAllCars();
 
-    void saveAuthor(MakerEdit makerEdit);
+    void saveMaker(MakerEdit makerEdit);
 
-    List<FullCar> loadAuthorBooks(Integer authorId);
+    List<FullCar> loadMakerCars(Integer authorId);
 
-    List<FullCar> loadNotAllBooks(Integer authorId);
+    List<FullCar> loadNotAllCars(Integer authorId);
 
-    void updateAuthor(Integer authorId, MakerEdit changedAuthor);
+    void updateMaker(Integer authorId, MakerEdit changedAuthor);
 
-    void deleteAuthorById(Integer authorId);
+    void deleteMakerById(Integer authorId);
 
-    void deleteAuthorBooks(Integer authorId);
+    void deleteMakerCars(Integer authorId);
 
-    List<SmallMaker> loadSmallAuthors();
+    List<SmallMaker> loadSmallMakers();
 
-    List<Body> loadAllGenres();
+    List<Body> loadAllBody();
 
-    List<FullCar> loadAllBooks(CarFilter carFilter);
+    List<FullCar> loadAllCars(CarFilter carFilter);
 
-    void saveBook(CarEdit carEdit);
+    void saveCar(CarEdit carEdit);
 
-    void updateBook(Integer bookId, CarEdit changedBook);
+    void updateCar(Integer bookId, CarEdit changedBook);
 
-    void deleteBookById(Integer bookId);
+    void deleteCarById(Integer bookId);
 
     boolean login(String login, String password);
 

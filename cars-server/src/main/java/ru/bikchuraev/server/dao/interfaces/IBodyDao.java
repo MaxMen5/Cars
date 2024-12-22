@@ -6,7 +6,7 @@ import ru.bikchuraev.api.entity.Body;
 
 import java.util.List;
 
-public interface IGenreDao extends IDao<Body> {
+public interface IBodyDao extends IDao<Body> {
 
     @Override
     default RowMapper<Body> rowMapper() {

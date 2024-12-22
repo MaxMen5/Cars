@@ -7,7 +7,7 @@ import ru.bikchuraev.api.editClasses.CarFilter;
 import ru.bikchuraev.api.editClasses.FullCar;
 import ru.bikchuraev.api.entity.Car;
 import ru.bikchuraev.server.dao.interfaces.AbstractDao;
-import ru.bikchuraev.server.dao.interfaces.IBookDao;
+import ru.bikchuraev.server.dao.interfaces.ICarDao;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import static ru.bikchuraev.server.utils.ServerUtils.isBlank;
 
 @Component
 @Lazy
-public class PgBookDao extends AbstractDao<Car> implements IBookDao {
+public class PgCarDao extends AbstractDao<Car> implements ICarDao {
 
     @Override
     public List<FullCar> findAll(CarFilter filter) {
@@ -58,7 +58,7 @@ public class PgBookDao extends AbstractDao<Car> implements IBookDao {
     }
 
     @Override
-    public List<FullCar> findNotAllBooks(Integer id) {
+    public List<FullCar> findNotAllCars(Integer id) {
         return query("select " +
                 "b.id as id, " +
                 "b.name as name, " +
@@ -76,12 +76,12 @@ public class PgBookDao extends AbstractDao<Car> implements IBookDao {
     }
 
     @Override
-    public void deleteBookById(Integer id) {
+    public void deleteCarById(Integer id) {
         update("delete from book where id = " + id);
     }
 
     @Override
-    public void saveBook(CarEdit book) {
+    public void saveCar(CarEdit book) {
         update("insert into book (name, book_author_id, year, book_genre_id, page_count) values ('" +
                 book.getName() + "', '" +
                 book.getAuthor().getId() + "', " +
@@ -101,7 +101,7 @@ public class PgBookDao extends AbstractDao<Car> implements IBookDao {
     }
 
     @Override
-    public List<FullCar> findAuthorBooks(Integer id) {
+    public List<FullCar> findMakerCars(Integer id) {
         return query("select " +
                 "b.id as id, " +
                 "b.name as name, " +
@@ -119,7 +119,7 @@ public class PgBookDao extends AbstractDao<Car> implements IBookDao {
     }
 
     @Override
-    public void deleteAuthorBooks(Integer id) {
+    public void deleteMakerCars(Integer id) {
         update("delete from book where book_author_id = " + id);
     }
 }
