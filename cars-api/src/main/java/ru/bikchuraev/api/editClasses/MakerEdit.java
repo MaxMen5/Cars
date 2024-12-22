@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.bikchuraev.api.entity.Genre;
+import ru.bikchuraev.api.entity.Country;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,7 +13,9 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class BookLists implements Serializable {
-    private List<SmallAuthor> authors;
-    private List<Genre> genres;
+public class MakerEdit implements Serializable {
+    private String name;
+    private Country country;
+    private Integer year;
+    private List<FullCar> book;
 }

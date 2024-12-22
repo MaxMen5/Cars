@@ -1,6 +1,6 @@
 package ru.bikchuraev.client.gui;
 
-import ru.bikchuraev.api.editClasses.FullBook;
+import ru.bikchuraev.api.editClasses.FullCar;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
@@ -15,9 +15,9 @@ public class BookTableModel extends AbstractTableModel {
             Integer.class, String.class, Integer.class, String.class, Integer.class, Integer.class, String.class, Integer.class
     );
 
-    private List<FullBook> data;
+    private List<FullCar> data;
 
-    public void initWith(List<FullBook> data) {
+    public void initWith(List<FullCar> data) {
         this.data = data;
     }
 
@@ -43,7 +43,7 @@ public class BookTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        FullBook book = data.get(rowIndex);
+        FullCar book = data.get(rowIndex);
 
         switch (columnIndex) {
             case 0: return book.getId();

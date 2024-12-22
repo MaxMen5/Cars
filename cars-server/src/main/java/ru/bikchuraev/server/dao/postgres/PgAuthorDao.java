@@ -2,11 +2,11 @@ package ru.bikchuraev.server.dao.postgres;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import ru.bikchuraev.api.editClasses.AuthorEdit;
-import ru.bikchuraev.api.editClasses.AuthorFilter;
-import ru.bikchuraev.api.editClasses.FullAuthor;
-import ru.bikchuraev.api.editClasses.SmallAuthor;
-import ru.bikchuraev.api.entity.Author;
+import ru.bikchuraev.api.editClasses.MakerEdit;
+import ru.bikchuraev.api.editClasses.MakerFilter;
+import ru.bikchuraev.api.editClasses.FullMaker;
+import ru.bikchuraev.api.editClasses.SmallMaker;
+import ru.bikchuraev.api.entity.Maker;
 import ru.bikchuraev.server.dao.interfaces.AbstractDao;
 import ru.bikchuraev.server.dao.interfaces.IAuthorDao;
 
@@ -16,10 +16,10 @@ import static ru.bikchuraev.server.utils.ServerUtils.isBlank;
 
 @Component
 @Lazy
-public class PgAuthorDao extends AbstractDao<Author> implements IAuthorDao {
+public class PgAuthorDao extends AbstractDao<Maker> implements IAuthorDao {
 
     @Override
-    public List<FullAuthor> findAll(AuthorFilter filter) {
+    public List<FullMaker> findAll(MakerFilter filter) {
         return query("select " +
                 "a.id as id, " +
                 "a.name as name, " +
@@ -37,7 +37,7 @@ public class PgAuthorDao extends AbstractDao<Author> implements IAuthorDao {
     }
 
     @Override
-    public List<SmallAuthor> findSmallAuthors() {
+    public List<SmallMaker> findSmallAuthors() {
         return query("select id, name from author order by id", smallRowMapper());
     }
 
@@ -47,7 +47,7 @@ public class PgAuthorDao extends AbstractDao<Author> implements IAuthorDao {
     }
 
     @Override
-    public void saveAuthor(AuthorEdit author) {
+    public void saveAuthor(MakerEdit author) {
         update("insert into author (name, author_country_id, birthday_year) values ('" +
                 author.getName() + "', " +
                 author.getCountry().getId() + ", " +
@@ -55,7 +55,7 @@ public class PgAuthorDao extends AbstractDao<Author> implements IAuthorDao {
     }
 
     @Override
-    public void update(Integer id, AuthorEdit author) {
+    public void update(Integer id, MakerEdit author) {
         update("update author set name = '" + author.getName() + "', " +
                 "author_country_id = " + author.getCountry().getId() +
                 ", birthday_year = " + author.getYear() +

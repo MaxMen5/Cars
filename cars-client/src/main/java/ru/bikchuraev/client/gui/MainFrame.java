@@ -1,7 +1,7 @@
 package ru.bikchuraev.client.gui;
 
 import org.springframework.stereotype.Component;
-import ru.bikchuraev.api.servcie.LibraryServerService;
+import ru.bikchuraev.api.servcie.CarsServerService;
 
 import javax.annotation.PostConstruct;
 import javax.swing.*;
@@ -15,14 +15,14 @@ public final class MainFrame extends JFrame {
 
     private static final String TITLE = "Library";
 
-    private final LibraryServerService libraryServerService;
+    private final CarsServerService carsServerService;
     private final BookPanel bookPanel;
     private final AuthorPanel authorPanel;
     private final LogInDialog logInDialog;
 
 
-    public MainFrame(LibraryServerService libraryServerService, BookPanel bookPanel, LogInDialog logInDialog, AuthorPanel authorPanel) {
-        this.libraryServerService = libraryServerService;
+    public MainFrame(CarsServerService carsServerService, BookPanel bookPanel, LogInDialog logInDialog, AuthorPanel authorPanel) {
+        this.carsServerService = carsServerService;
         this.bookPanel = bookPanel;
         this.logInDialog = logInDialog;
         this.authorPanel = authorPanel;
@@ -61,10 +61,10 @@ public final class MainFrame extends JFrame {
         menuBar.add(authorization);
 
         authorization.addActionListener(e -> {
-            if (!libraryServerService.isLoggedIn()) {
+            if (!carsServerService.isLoggedIn()) {
                 logInDialog.setLocationRelativeTo(MainFrame.this);
                 logInDialog.setVisible(true);
-                if (libraryServerService.isLoggedIn()) authorization.setText("Выйти");
+                if (carsServerService.isLoggedIn()) authorization.setText("Выйти");
             } else {
                 if (JOptionPane.showConfirmDialog(
                         MainFrame.this,
@@ -72,7 +72,7 @@ public final class MainFrame extends JFrame {
                         "Вопрос",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                    libraryServerService.logout();
+                    carsServerService.logout();
                     authorPanel.refreshTableData();
                     bookPanel.refreshTableData();
                     authorization.setText("Войти");

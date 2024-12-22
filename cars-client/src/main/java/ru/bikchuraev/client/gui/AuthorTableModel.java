@@ -1,6 +1,6 @@
 package ru.bikchuraev.client.gui;
 
-import ru.bikchuraev.api.editClasses.FullAuthor;
+import ru.bikchuraev.api.editClasses.FullMaker;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
@@ -15,9 +15,9 @@ public class AuthorTableModel extends AbstractTableModel {
             Integer.class, String.class, Integer.class, String.class, Integer.class, String.class
     );
 
-    private List<FullAuthor> data;
+    private List<FullMaker> data;
 
-    public void initWith(List<FullAuthor> data) {
+    public void initWith(List<FullMaker> data) {
         this.data = data;
     }
 
@@ -43,7 +43,7 @@ public class AuthorTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        FullAuthor author = data.get(rowIndex);
+        FullMaker author = data.get(rowIndex);
 
         switch (columnIndex) {
             case 0: return author.getId();

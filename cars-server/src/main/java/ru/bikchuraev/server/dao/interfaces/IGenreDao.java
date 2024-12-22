@@ -2,24 +2,24 @@ package ru.bikchuraev.server.dao.interfaces;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bikchuraev.api.entity.Genre;
+import ru.bikchuraev.api.entity.Body;
 
 import java.util.List;
 
-public interface IGenreDao extends IDao<Genre> {
+public interface IGenreDao extends IDao<Body> {
 
     @Override
-    default RowMapper<Genre> rowMapper() {
+    default RowMapper<Body> rowMapper() {
         return (resultSet, i) -> {
-            Genre genre = new Genre();
-            genre.setId(resultSet.getInt("id"));
-            genre.setName(resultSet.getString("name"));
-            return genre;
+            Body body = new Body();
+            body.setId(resultSet.getInt("id"));
+            body.setName(resultSet.getString("name"));
+            return body;
         };
     }
 
     //================================================================================================================//
 
     @Transactional
-    List<Genre> findAll();
+    List<Body> findAll();
 }

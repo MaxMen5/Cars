@@ -2,58 +2,58 @@ package ru.bikchuraev.server.dao.interfaces;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bikchuraev.api.editClasses.AuthorEdit;
-import ru.bikchuraev.api.editClasses.AuthorFilter;
-import ru.bikchuraev.api.editClasses.FullAuthor;
-import ru.bikchuraev.api.editClasses.SmallAuthor;
-import ru.bikchuraev.api.entity.Author;
+import ru.bikchuraev.api.editClasses.MakerEdit;
+import ru.bikchuraev.api.editClasses.MakerFilter;
+import ru.bikchuraev.api.editClasses.FullMaker;
+import ru.bikchuraev.api.editClasses.SmallMaker;
+import ru.bikchuraev.api.entity.Maker;
 
 import java.util.List;
 
-public interface IAuthorDao extends IDao<Author> {
+public interface IAuthorDao extends IDao<Maker> {
 
     @Override
-    default RowMapper<Author> rowMapper() {
+    default RowMapper<Maker> rowMapper() {
         return (resultSet, i) -> {
-            Author author = new Author();
-            author.setId(resultSet.getInt("id"));
-            author.setName(resultSet.getString("name"));
-            author.setCountryId(resultSet.getInt("author_country_id"));
-            author.setBirthYear(resultSet.getInt("birthday_year"));
-            author.setBookList(resultSet.getString("book_list"));
-            return author;
+            Maker maker = new Maker();
+            maker.setId(resultSet.getInt("id"));
+            maker.setName(resultSet.getString("name"));
+            maker.setCountryId(resultSet.getInt("author_country_id"));
+            maker.setBirthYear(resultSet.getInt("birthday_year"));
+            maker.setBookList(resultSet.getString("book_list"));
+            return maker;
         };
     }
 
     //================================================================================================================//
 
     @Transactional
-    List<FullAuthor> findAll(AuthorFilter filter);
+    List<FullMaker> findAll(MakerFilter filter);
 
     @Transactional
-    List<SmallAuthor> findSmallAuthors();
+    List<SmallMaker> findSmallAuthors();
 
     @Transactional
     void deleteAuthorById(Integer id);
 
     @Transactional
-    void saveAuthor(AuthorEdit author);
+    void saveAuthor(MakerEdit author);
 
     @Transactional
-    void update(Integer Id, AuthorEdit author);
+    void update(Integer Id, MakerEdit author);
 
-    default RowMapper<SmallAuthor> smallRowMapper() {
+    default RowMapper<SmallMaker> smallRowMapper() {
         return (resultSet, i) -> {
-            SmallAuthor author = new SmallAuthor();
+            SmallMaker author = new SmallMaker();
             author.setId(resultSet.getInt("id"));
             author.setName(resultSet.getString("name"));
             return author;
         };
     }
 
-    default RowMapper<FullAuthor> fullRowMapper() {
+    default RowMapper<FullMaker> fullRowMapper() {
         return (resultSet, i) -> {
-            FullAuthor author = new FullAuthor();
+            FullMaker author = new FullMaker();
             author.setId(resultSet.getInt("id"));
             author.setName(resultSet.getString("name"));
             author.setCountryId(resultSet.getInt("author_country_id"));

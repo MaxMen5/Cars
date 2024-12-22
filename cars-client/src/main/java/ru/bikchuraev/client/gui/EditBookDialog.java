@@ -1,9 +1,9 @@
 package ru.bikchuraev.client.gui;
 
-import ru.bikchuraev.api.editClasses.BookEdit;
-import ru.bikchuraev.api.editClasses.BookLists;
-import ru.bikchuraev.api.editClasses.SmallAuthor;
-import ru.bikchuraev.api.entity.Genre;
+import ru.bikchuraev.api.editClasses.CarEdit;
+import ru.bikchuraev.api.editClasses.CarLists;
+import ru.bikchuraev.api.editClasses.SmallMaker;
+import ru.bikchuraev.api.entity.Body;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,15 +25,15 @@ public class EditBookDialog extends JDialog {
     private final JTextField yearField = new JTextField();
     private final JTextField pageField = new JTextField();
 
-    private final BookLists bookList;
-    private final BookEdit prevData;
-    private final Consumer<BookEdit> newbookConsumer;
+    private final CarLists bookList;
+    private final CarEdit prevData;
+    private final Consumer<CarEdit> newbookConsumer;
 
-    public EditBookDialog(BookLists bookList, Consumer<BookEdit> newbookConsumer) {
+    public EditBookDialog(CarLists bookList, Consumer<CarEdit> newbookConsumer) {
         this(bookList, null, newbookConsumer);
     }
 
-    public EditBookDialog(BookLists bookList, BookEdit prevData, Consumer<BookEdit> newbookConsumer) {
+    public EditBookDialog(CarLists bookList, CarEdit prevData, Consumer<CarEdit> newbookConsumer) {
         this.newbookConsumer = newbookConsumer;
         this.bookList = bookList;
         this.prevData = prevData;
@@ -45,8 +45,8 @@ public class EditBookDialog extends JDialog {
         for (int i = 0; i < bookList.getAuthors().size(); i++) {
             authors.addItem(bookList.getAuthors().get(i).getName());
         }
-        for (int i = 0; i < bookList.getGenres().size(); i++) {
-            genres.addItem(bookList.getGenres().get(i).getName());
+        for (int i = 0; i < bookList.getBodies().size(); i++) {
+            genres.addItem(bookList.getBodies().get(i).getName());
         }
 
         JPanel mainPanel = new JPanel(new GridLayout(6, 1));
@@ -67,7 +67,7 @@ public class EditBookDialog extends JDialog {
             nameField.setText(prevData.getName());
             authors.setSelectedItem(prevData.getAuthor().getName());
             yearField.setText(toStringSafe(prevData.getYear()));
-            genres.setSelectedItem(prevData.getGenre().getName());
+            genres.setSelectedItem(prevData.getBody().getName());
             pageField.setText(toStringSafe(prevData.getPages()));
         }
 
@@ -120,7 +120,7 @@ public class EditBookDialog extends JDialog {
                 return;
             }
 
-            SmallAuthor author = new SmallAuthor();
+            SmallMaker author = new SmallMaker();
             for (int i = 0; i < bookList.getAuthors().size(); i++) {
                 if (bookList.getAuthors().get(i).getName().equals(authors.getSelectedItem())) {
                     author = bookList.getAuthors().get(i);
@@ -128,21 +128,21 @@ public class EditBookDialog extends JDialog {
                 }
             }
 
-            Genre genre = new Genre();
-            for (int i = 0; i < bookList.getGenres().size(); i++) {
-                if (bookList.getGenres().get(i).getName().equals(genres.getSelectedItem())) {
-                    genre = bookList.getGenres().get(i);
+            Body body = new Body();
+            for (int i = 0; i < bookList.getBodies().size(); i++) {
+                if (bookList.getBodies().get(i).getName().equals(genres.getSelectedItem())) {
+                    body = bookList.getBodies().get(i);
                     break;
                 }
             }
 
-            BookEdit bookEdit = new BookEdit();
-            bookEdit.setName(nameField.getText());
-            bookEdit.setAuthor(author);
-            bookEdit.setYear(Integer.parseInt(yearField.getText()));
-            bookEdit.setGenre(genre);
-            bookEdit.setPages(Integer.parseInt(pageField.getText()));
-            newbookConsumer.accept(bookEdit);
+            CarEdit carEdit = new CarEdit();
+            carEdit.setName(nameField.getText());
+            carEdit.setAuthor(author);
+            carEdit.setYear(Integer.parseInt(yearField.getText()));
+            carEdit.setBody(body);
+            carEdit.setPages(Integer.parseInt(pageField.getText()));
+            newbookConsumer.accept(carEdit);
             dispose();
         }
     }

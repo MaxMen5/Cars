@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Author implements IEntity, Serializable {
+public class Maker implements IEntity, Serializable {
     private Integer id;
     private String name;
     private Integer countryId;

@@ -13,9 +13,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class AuthorEdit implements Serializable {
-    private String name;
-    private Country country;
-    private Integer year;
-    private List<FullBook> book;
+public class MakerLists implements Serializable {
+    private List<Country> country;
+    private List<FullCar> book;
 }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.remoting.rmi.RmiProxyFactoryBean;
-import ru.bikchuraev.api.servcie.LibraryServerService;
+import ru.bikchuraev.api.servcie.CarsServerService;
 import ru.bikchuraev.client.gui.MainFrame;
 
 @Configuration
@@ -20,12 +20,12 @@ public class ClientApp {
     private String serverAddress;
 
     @Bean
-    public LibraryServerService libraryServerService() {
+    public CarsServerService libraryServerService() {
         RmiProxyFactoryBean rmiProxyFactoryBean = new RmiProxyFactoryBean();
         rmiProxyFactoryBean.setServiceUrl(serverAddress);
-        rmiProxyFactoryBean.setServiceInterface(LibraryServerService.class);
+        rmiProxyFactoryBean.setServiceInterface(CarsServerService.class);
         rmiProxyFactoryBean.afterPropertiesSet();
-        return (LibraryServerService) rmiProxyFactoryBean.getObject();
+        return (CarsServerService) rmiProxyFactoryBean.getObject();
     }
 
     public static void main(String[] args) {

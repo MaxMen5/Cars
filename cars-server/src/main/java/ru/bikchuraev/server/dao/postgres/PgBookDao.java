@@ -2,10 +2,10 @@ package ru.bikchuraev.server.dao.postgres;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import ru.bikchuraev.api.editClasses.BookEdit;
-import ru.bikchuraev.api.editClasses.BookFilter;
-import ru.bikchuraev.api.editClasses.FullBook;
-import ru.bikchuraev.api.entity.Book;
+import ru.bikchuraev.api.editClasses.CarEdit;
+import ru.bikchuraev.api.editClasses.CarFilter;
+import ru.bikchuraev.api.editClasses.FullCar;
+import ru.bikchuraev.api.entity.Car;
 import ru.bikchuraev.server.dao.interfaces.AbstractDao;
 import ru.bikchuraev.server.dao.interfaces.IBookDao;
 
@@ -15,10 +15,10 @@ import static ru.bikchuraev.server.utils.ServerUtils.isBlank;
 
 @Component
 @Lazy
-public class PgBookDao extends AbstractDao<Book> implements IBookDao {
+public class PgBookDao extends AbstractDao<Car> implements IBookDao {
 
     @Override
-    public List<FullBook> findAll(BookFilter filter) {
+    public List<FullCar> findAll(CarFilter filter) {
         return query("select " +
                 "b.id as id, " +
                 "b.name as name, " +
@@ -41,7 +41,7 @@ public class PgBookDao extends AbstractDao<Book> implements IBookDao {
     }
 
     @Override
-    public List<FullBook> findAll() {
+    public List<FullCar> findAll() {
         return query("select " +
                 "b.id as id, " +
                 "b.name as name, " +
@@ -58,7 +58,7 @@ public class PgBookDao extends AbstractDao<Book> implements IBookDao {
     }
 
     @Override
-    public List<FullBook> findNotAllBooks(Integer id) {
+    public List<FullCar> findNotAllBooks(Integer id) {
         return query("select " +
                 "b.id as id, " +
                 "b.name as name, " +
@@ -81,27 +81,27 @@ public class PgBookDao extends AbstractDao<Book> implements IBookDao {
     }
 
     @Override
-    public void saveBook(BookEdit book) {
+    public void saveBook(CarEdit book) {
         update("insert into book (name, book_author_id, year, book_genre_id, page_count) values ('" +
                 book.getName() + "', '" +
                 book.getAuthor().getId() + "', " +
                 book.getYear() + ", '" +
-                book.getGenre().getId() + "', " +
+                book.getBody().getId() + "', " +
                 book.getPages() + ");");
     }
 
     @Override
-    public void update(Integer id, BookEdit book) {
+    public void update(Integer id, CarEdit book) {
         update("update book set name = '" + book.getName() + "', " +
                 "book_author_id = " + book.getAuthor().getId() +
                 ", year = " + book.getYear() +
-                ", book_genre_id = " + book.getGenre().getId() +
+                ", book_genre_id = " + book.getBody().getId() +
                 ", page_count = " + book.getPages() +
                 " where id = " + id);
     }
 
     @Override
-    public List<FullBook> findAuthorBooks(Integer id) {
+    public List<FullCar> findAuthorBooks(Integer id) {
         return query("select " +
                 "b.id as id, " +
                 "b.name as name, " +

@@ -1,13 +1,13 @@
 -- DROP ALL ------------------------------------------------------------------------------------
 
-drop table book;
-drop table author;
+drop table car;
+drop table maker;
 drop table country;
-drop table genre;
+drop table body;
 
 -- TABLE CREATIONS -----------------------------------------------------------------------------
 
-create table genre(
+create table body(
                       id serial not null primary key,
                       name varchar not null
 );
@@ -21,7 +21,7 @@ create table country(
 
 --
 
-create table author(
+create table maker(
                        id serial not null primary key,
                        name varchar not null,
                        author_country_id integer not null references country (id) ON UPDATE NO ACTION ON DELETE CASCADE,
@@ -30,18 +30,18 @@ create table author(
 
 --
 
-create table book(
+create table car(
                      id serial not null primary key,
                      name varchar not null,
-                     book_author_id integer not null references author (id) ON UPDATE NO ACTION ON DELETE CASCADE,
+                     book_author_id integer not null references maker (id) ON UPDATE NO ACTION ON DELETE CASCADE,
                      year integer not null,
-                     book_genre_id integer not null references genre (id) ON UPDATE NO ACTION ON DELETE CASCADE,
+                     book_genre_id integer not null references body (id) ON UPDATE NO ACTION ON DELETE CASCADE,
                      page_count integer not null
 );
 
 -- DATA INSERTIONS ------------------------------------------------------------------------
 
-insert into genre (name)
+insert into body (name)
 values
     ('Фантастика'),
     ('Детектив'),
@@ -64,7 +64,7 @@ values
     returning *;
 
 -- Вставка авторов
-insert into author (name, author_country_id, birthday_year)
+insert into maker (name, author_country_id, birthday_year)
 values
     ('Стивен Кинг', 2, 1947),
     ('Джоан Роулинг', 3, 1965),
@@ -79,7 +79,7 @@ values
     returning *;
 
 -- Вставка книг
-insert into book (name, book_author_id, year, book_genre_id, page_count)
+insert into car (name, book_author_id, year, book_genre_id, page_count)
 values
     ('Сияние', 1, 1977, 1, 688),
     ('Гарри Поттер и философский камень', 2, 1997, 1, 223),
@@ -167,7 +167,7 @@ values
 
 -- DATA SELECTIONS ------------------------------------------------------------------------
 
-select * from genre;
+select * from body;
 select * from country;
-select * from author;
-select * from book;
+select * from maker;
+select * from car;

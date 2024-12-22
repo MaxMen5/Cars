@@ -2,7 +2,7 @@ package ru.bikchuraev.client.gui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.bikchuraev.api.servcie.LibraryServerService;
+import ru.bikchuraev.api.servcie.CarsServerService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 public class LogInDialog extends JDialog {
 
     @Autowired
-    private LibraryServerService libraryServerService;
+    private CarsServerService carsServerService;
     @Autowired
     private BookPanel bookPanel;
     @Autowired
@@ -56,7 +56,7 @@ public class LogInDialog extends JDialog {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            boolean success = libraryServerService.login(loginField.getText(), passwordField.getText());
+            boolean success = carsServerService.login(loginField.getText(), passwordField.getText());
             if (success) {
                 authorPanel.refreshTableData();
                 bookPanel.refreshTableData();

@@ -11,7 +11,10 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class SmallAuthor implements Serializable {
-    private Integer id;
+public class CarFilter implements Serializable {
     private String name;
+    private String author;
+    private String year;
+    private String genre;
+    private String page;
 }

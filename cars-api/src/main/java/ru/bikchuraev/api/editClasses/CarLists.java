@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.bikchuraev.api.entity.Country;
+import ru.bikchuraev.api.entity.Body;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class AuthorLists implements Serializable {
-    private List<Country> country;
-    private List<FullBook> book;
+public class CarLists implements Serializable {
+    private List<SmallMaker> authors;
+    private List<Body> bodies;
 }

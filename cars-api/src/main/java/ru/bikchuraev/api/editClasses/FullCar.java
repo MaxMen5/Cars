@@ -11,11 +11,13 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class FullAuthor implements Serializable {
+public class FullCar implements Serializable {
     private Integer id;
     private String name;
-    private Integer countryId;
-    private String countryName;
-    private Integer birthYear;
-    private String bookList;
+    private Integer authorId;
+    private String authorName;
+    private Integer year;
+    private Integer genreId;
+    private String genreName;
+    private Integer pageCount;
 }

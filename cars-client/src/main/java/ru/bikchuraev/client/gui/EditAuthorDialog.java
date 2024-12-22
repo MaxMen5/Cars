@@ -1,8 +1,8 @@
 package ru.bikchuraev.client.gui;
 
-import ru.bikchuraev.api.editClasses.AuthorEdit;
-import ru.bikchuraev.api.editClasses.AuthorLists;
-import ru.bikchuraev.api.editClasses.FullBook;
+import ru.bikchuraev.api.editClasses.MakerEdit;
+import ru.bikchuraev.api.editClasses.MakerLists;
+import ru.bikchuraev.api.editClasses.FullCar;
 import ru.bikchuraev.api.entity.Country;
 
 import javax.swing.*;
@@ -25,18 +25,18 @@ public class EditAuthorDialog extends JDialog {
     private final JTextField nameField = new JTextField();
     private final JTextField yearField = new JTextField();
 
-    private JList<FullBook> authorBookList = createBookList();
-    private JList<FullBook> allBookList = createBookList();
+    private JList<FullCar> authorBookList = createBookList();
+    private JList<FullCar> allBookList = createBookList();
 
-    private final AuthorLists authorList;
-    private final AuthorEdit prevData;
-    private final Consumer<AuthorEdit> newAuthorConsumer;
+    private final MakerLists authorList;
+    private final MakerEdit prevData;
+    private final Consumer<MakerEdit> newAuthorConsumer;
 
-    public EditAuthorDialog(AuthorLists authorList, Consumer<AuthorEdit> newAuthorConsumer) {
+    public EditAuthorDialog(MakerLists authorList, Consumer<MakerEdit> newAuthorConsumer) {
         this(authorList, null, newAuthorConsumer);
     }
 
-    public EditAuthorDialog(AuthorLists authorList, AuthorEdit prevData, Consumer<AuthorEdit> newAuthorConsumer) {
+    public EditAuthorDialog(MakerLists authorList, MakerEdit prevData, Consumer<MakerEdit> newAuthorConsumer) {
         this.newAuthorConsumer = newAuthorConsumer;
         this.authorList = authorList;
         this.prevData = prevData;
@@ -62,16 +62,16 @@ public class EditAuthorDialog extends JDialog {
         listPanel.add(new JScrollPane(allBookList));
         listPanel.add(new JScrollPane(authorBookList));
 
-        DefaultListModel<FullBook> authorBookModel = new DefaultListModel<>();
+        DefaultListModel<FullCar> authorBookModel = new DefaultListModel<>();
         if (prevData != null) {
-            for (FullBook book : prevData.getBook()) {
+            for (FullCar book : prevData.getBook()) {
                 authorBookModel.addElement(book);
             }
         }
         authorBookList.setModel(authorBookModel);
 
-        DefaultListModel<FullBook> allBookModel = new DefaultListModel<>();
-        for (FullBook book : authorList.getBook()) {
+        DefaultListModel<FullCar> allBookModel = new DefaultListModel<>();
+        for (FullCar book : authorList.getBook()) {
             allBookModel.addElement(book);
         }
         allBookList.setModel(allBookModel);
@@ -108,9 +108,9 @@ public class EditAuthorDialog extends JDialog {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
-                    FullBook selectedValue = allBookList.getSelectedValue();
-                    ((DefaultListModel<FullBook>) allBookList.getModel()).removeElement(selectedValue);
-                    ((DefaultListModel<FullBook>) authorBookList.getModel()).addElement(selectedValue);
+                    FullCar selectedValue = allBookList.getSelectedValue();
+                    ((DefaultListModel<FullCar>) allBookList.getModel()).removeElement(selectedValue);
+                    ((DefaultListModel<FullCar>) authorBookList.getModel()).addElement(selectedValue);
                     allBookList.revalidate();
                     allBookList.repaint();
                     authorBookList.revalidate();
@@ -123,9 +123,9 @@ public class EditAuthorDialog extends JDialog {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
-                    FullBook selectedValue = authorBookList.getSelectedValue();
-                    ((DefaultListModel<FullBook>) authorBookList.getModel()).removeElement(selectedValue);
-                    ((DefaultListModel<FullBook>) allBookList.getModel()).addElement(selectedValue);
+                    FullCar selectedValue = authorBookList.getSelectedValue();
+                    ((DefaultListModel<FullCar>) authorBookList.getModel()).removeElement(selectedValue);
+                    ((DefaultListModel<FullCar>) allBookList.getModel()).addElement(selectedValue);
                     allBookList.revalidate();
                     allBookList.repaint();
                     authorBookList.revalidate();
@@ -135,15 +135,15 @@ public class EditAuthorDialog extends JDialog {
         });
     }
 
-    private JList<FullBook> createBookList() {
-        JList<FullBook> bookList = new JList<>();
+    private JList<FullCar> createBookList() {
+        JList<FullCar> bookList = new JList<>();
         bookList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (renderer instanceof JLabel && value instanceof FullBook) {
+                if (renderer instanceof JLabel && value instanceof FullCar) {
                     JLabel label = (JLabel) renderer;
-                    FullBook book = (FullBook) value;
+                    FullCar book = (FullCar) value;
                     label.setText(book.getName());
                 }
                 return renderer;
@@ -187,11 +187,11 @@ public class EditAuthorDialog extends JDialog {
                 }
             }
 
-            AuthorEdit authorEdit = new AuthorEdit();
-            authorEdit.setName(nameField.getText());
-            authorEdit.setCountry(country);
-            authorEdit.setYear(Integer.parseInt(yearField.getText()));
-            newAuthorConsumer.accept(authorEdit);
+            MakerEdit makerEdit = new MakerEdit();
+            makerEdit.setName(nameField.getText());
+            makerEdit.setCountry(country);
+            makerEdit.setYear(Integer.parseInt(yearField.getText()));
+            newAuthorConsumer.accept(makerEdit);
             dispose();
         }
     }

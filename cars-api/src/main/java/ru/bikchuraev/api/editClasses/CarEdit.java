@@ -1,9 +1,10 @@
-package ru.bikchuraev.api.entity;
+package ru.bikchuraev.api.editClasses;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ru.bikchuraev.api.entity.Body;
 
 import java.io.Serializable;
 
@@ -11,11 +12,10 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Book implements IEntity, Serializable {
-    private Integer id;
+public class CarEdit implements Serializable {
     private String name;
-    private Integer authorId;
+    private SmallMaker author;
     private Integer year;
-    private Integer genreId;
-    private Integer pageCount;
+    private Body body;
+    private Integer pages;
 }

@@ -11,8 +11,7 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class AuthorFilter implements Serializable {
+public class SmallMaker implements Serializable {
+    private Integer id;
     private String name;
-    private String country;
-    private String year;
 }

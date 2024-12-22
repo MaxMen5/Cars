@@ -1,4 +1,4 @@
-package ru.bikchuraev.api.editClasses;
+package ru.bikchuraev.api.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,10 +11,9 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class BookFilter implements Serializable {
+public class Body implements IEntity, Serializable {
+    private Integer id;
     private String name;
-    private String author;
-    private String year;
-    private String genre;
-    private String page;
+
 }
+

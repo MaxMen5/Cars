@@ -1,4 +1,4 @@
-package ru.bikchuraev.api.entity;
+package ru.bikchuraev.api.editClasses;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,9 +11,11 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Genre implements IEntity, Serializable {
+public class FullMaker implements Serializable {
     private Integer id;
     private String name;
-
+    private Integer countryId;
+    private String countryName;
+    private Integer birthYear;
+    private String bookList;
 }
-

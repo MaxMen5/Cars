@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.bikchuraev.api.servcie.LibraryServerService;
+import ru.bikchuraev.api.servcie.CarsServerService;
 
 import javax.sql.DataSource;
 
@@ -70,12 +70,12 @@ public class ServerApp {
     }
 
     @Bean
-    public RmiServiceExporter libraryServerServiceExporter(LibraryServerService libraryServerService) {
+    public RmiServiceExporter libraryServerServiceExporter(CarsServerService carsServerService) {
         RmiServiceExporter serviceExporter = new RmiServiceExporter();
 
         serviceExporter.setServiceName("library");
-        serviceExporter.setService(libraryServerService);
-        serviceExporter.setServiceInterface(LibraryServerService.class);
+        serviceExporter.setService(carsServerService);
+        serviceExporter.setServiceInterface(CarsServerService.class);
         serviceExporter.setRegistryPort(serverPort);
 
         return serviceExporter;

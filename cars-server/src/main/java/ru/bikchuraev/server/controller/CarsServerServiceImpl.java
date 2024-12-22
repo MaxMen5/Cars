@@ -1,16 +1,16 @@
 package ru.bikchuraev.server.controller;
 
 import org.springframework.stereotype.Component;
-import ru.bikchuraev.api.editClasses.AuthorEdit;
-import ru.bikchuraev.api.editClasses.AuthorFilter;
-import ru.bikchuraev.api.editClasses.BookEdit;
-import ru.bikchuraev.api.editClasses.BookFilter;
-import ru.bikchuraev.api.editClasses.FullAuthor;
-import ru.bikchuraev.api.editClasses.FullBook;
-import ru.bikchuraev.api.editClasses.SmallAuthor;
+import ru.bikchuraev.api.editClasses.MakerEdit;
+import ru.bikchuraev.api.editClasses.MakerFilter;
+import ru.bikchuraev.api.editClasses.CarEdit;
+import ru.bikchuraev.api.editClasses.CarFilter;
+import ru.bikchuraev.api.editClasses.FullMaker;
+import ru.bikchuraev.api.editClasses.FullCar;
+import ru.bikchuraev.api.editClasses.SmallMaker;
 import ru.bikchuraev.api.entity.Country;
-import ru.bikchuraev.api.entity.Genre;
-import ru.bikchuraev.api.servcie.LibraryServerService;
+import ru.bikchuraev.api.entity.Body;
+import ru.bikchuraev.api.servcie.CarsServerService;
 import ru.bikchuraev.server.dao.interfaces.IAuthorDao;
 import ru.bikchuraev.server.dao.interfaces.IBookDao;
 import ru.bikchuraev.server.dao.interfaces.ICountryDao;
@@ -20,7 +20,7 @@ import ru.bikchuraev.server.service.AuthManager;
 import java.util.List;
 
 @Component
-public class LibraryServerServiceImpl implements LibraryServerService {
+public class CarsServerServiceImpl implements CarsServerService {
 
     private final IAuthorDao authorDao;
     private final IBookDao bookDao;
@@ -28,7 +28,7 @@ public class LibraryServerServiceImpl implements LibraryServerService {
     private final IGenreDao genreDao;
     private final AuthManager authManager;
 
-    public LibraryServerServiceImpl(IAuthorDao authorDao, IBookDao bookDao, ICountryDao countryDao, IGenreDao genreDao, AuthManager authManager) {
+    public CarsServerServiceImpl(IAuthorDao authorDao, IBookDao bookDao, ICountryDao countryDao, IGenreDao genreDao, AuthManager authManager) {
         this.authorDao = authorDao;
         this.bookDao = bookDao;
         this.countryDao = countryDao;
@@ -42,7 +42,7 @@ public class LibraryServerServiceImpl implements LibraryServerService {
     }
 
     @Override
-    public List<FullAuthor> loadAllAuthors(AuthorFilter filter) {
+    public List<FullMaker> loadAllAuthors(MakerFilter filter) {
         return authorDao.findAll(filter);
     }
 
@@ -52,27 +52,27 @@ public class LibraryServerServiceImpl implements LibraryServerService {
     }
 
     @Override
-    public List<FullBook> loadAllBooks() {
+    public List<FullCar> loadAllBooks() {
         return bookDao.findAll();
     }
 
     @Override
-    public void saveAuthor(AuthorEdit authorEdit) {
-        authorDao.saveAuthor(authorEdit);
+    public void saveAuthor(MakerEdit makerEdit) {
+        authorDao.saveAuthor(makerEdit);
     }
 
     @Override
-    public List<FullBook> loadAuthorBooks(Integer authorId) {
+    public List<FullCar> loadAuthorBooks(Integer authorId) {
         return bookDao.findAuthorBooks(authorId);
     }
 
     @Override
-    public List<FullBook> loadNotAllBooks(Integer authorId) {
+    public List<FullCar> loadNotAllBooks(Integer authorId) {
         return bookDao.findNotAllBooks(authorId);
     }
 
     @Override
-    public void updateAuthor(Integer authorId, AuthorEdit changedAuthor) {
+    public void updateAuthor(Integer authorId, MakerEdit changedAuthor) {
         authorDao.update(authorId, changedAuthor);
     }
 
@@ -87,27 +87,27 @@ public class LibraryServerServiceImpl implements LibraryServerService {
     }
 
     @Override
-    public List<SmallAuthor> loadSmallAuthors() {
+    public List<SmallMaker> loadSmallAuthors() {
         return authorDao.findSmallAuthors();
     }
 
     @Override
-    public List<Genre> loadAllGenres() {
+    public List<Body> loadAllGenres() {
         return genreDao.findAll();
     }
 
     @Override
-    public List<FullBook> loadAllBooks(BookFilter bookFilter) {
-        return bookDao.findAll(bookFilter);
+    public List<FullCar> loadAllBooks(CarFilter carFilter) {
+        return bookDao.findAll(carFilter);
     }
 
     @Override
-    public void saveBook(BookEdit bookEdit) {
-        bookDao.saveBook(bookEdit);
+    public void saveBook(CarEdit carEdit) {
+        bookDao.saveBook(carEdit);
     }
 
     @Override
-    public void updateBook(Integer bookId, BookEdit changedBook) {
+    public void updateBook(Integer bookId, CarEdit changedBook) {
         bookDao.update(bookId, changedBook);
     }
 

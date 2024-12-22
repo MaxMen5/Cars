@@ -1,4 +1,4 @@
-package ru.bikchuraev.api.editClasses;
+package ru.bikchuraev.api.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,13 +11,11 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class FullBook implements Serializable {
+public class Car implements IEntity, Serializable {
     private Integer id;
     private String name;
     private Integer authorId;
-    private String authorName;
     private Integer year;
     private Integer genreId;
-    private String genreName;
     private Integer pageCount;
 }

@@ -2,12 +2,12 @@ package ru.bikchuraev.client.gui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.bikchuraev.api.editClasses.AuthorEdit;
-import ru.bikchuraev.api.editClasses.AuthorFilter;
-import ru.bikchuraev.api.editClasses.AuthorLists;
-import ru.bikchuraev.api.editClasses.FullAuthor;
+import ru.bikchuraev.api.editClasses.MakerEdit;
+import ru.bikchuraev.api.editClasses.MakerFilter;
+import ru.bikchuraev.api.editClasses.MakerLists;
+import ru.bikchuraev.api.editClasses.FullMaker;
 import ru.bikchuraev.api.entity.Country;
-import ru.bikchuraev.api.servcie.LibraryServerService;
+import ru.bikchuraev.api.servcie.CarsServerService;
 
 import javax.annotation.PostConstruct;
 import javax.swing.*;
@@ -27,9 +27,9 @@ public class AuthorPanel extends JPanel {
     @Autowired
     private BookPanel bookPanel;
     @Autowired
-    private LibraryServerService libraryServerService;
+    private CarsServerService carsServerService;
 
-    private final AuthorLists authorList = new AuthorLists();
+    private final MakerLists authorList = new MakerLists();
 
     private final JTextField filterNameField = new JTextField();
     private final JTextField filterCountryField = new JTextField();
@@ -110,17 +110,17 @@ public class AuthorPanel extends JPanel {
     }
 
     public void refreshTableData() {
-        boolean isLoggedIn = libraryServerService.isLoggedIn();
+        boolean isLoggedIn = carsServerService.isLoggedIn();
         addButton.setEnabled(isLoggedIn);
         editButton.setEnabled(isLoggedIn);
         removeButton.setEnabled(isLoggedIn);
 
-        AuthorFilter filter = new AuthorFilter();
+        MakerFilter filter = new MakerFilter();
         filter.setName(filterNameField.getText());
         filter.setCountry(filterCountryField.getText());
         filter.setYear(filterYearField.getText());
 
-        List<FullAuthor> allAuthors = libraryServerService.loadAllAuthors(filter);
+        List<FullMaker> allAuthors = carsServerService.loadAllAuthors(filter);
         tableModel.initWith(allAuthors);
         table.revalidate();
         table.repaint();
@@ -135,11 +135,11 @@ public class AuthorPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            authorList.setCountry(libraryServerService.loadAllCountries());
-            authorList.setBook(libraryServerService.loadAllBooks());
+            authorList.setCountry(carsServerService.loadAllCountries());
+            authorList.setBook(carsServerService.loadAllBooks());
 
             EditAuthorDialog editauthorDialog = new EditAuthorDialog(authorList, authorEdit -> {
-                libraryServerService.saveAuthor(authorEdit);
+                carsServerService.saveAuthor(authorEdit);
                 refreshTableData();
                 bookPanel.refreshTableData();
             });
@@ -169,22 +169,22 @@ public class AuthorPanel extends JPanel {
 
             Integer selectedAuthorId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
 
-            AuthorEdit authorEdit = new AuthorEdit();
-            authorEdit.setName((String) tableModel.getValueAt(selectedRowIndex, 1));
+            MakerEdit makerEdit = new MakerEdit();
+            makerEdit.setName((String) tableModel.getValueAt(selectedRowIndex, 1));
 
             Country country = new Country();
             country.setId((Integer) tableModel.getValueAt(selectedRowIndex, 2));
             country.setName((String) tableModel.getValueAt(selectedRowIndex, 3));
 
-            authorEdit.setCountry(country);
-            authorEdit.setYear((Integer) tableModel.getValueAt(selectedRowIndex, 4));
-            authorEdit.setBook(libraryServerService.loadAuthorBooks(selectedAuthorId));
+            makerEdit.setCountry(country);
+            makerEdit.setYear((Integer) tableModel.getValueAt(selectedRowIndex, 4));
+            makerEdit.setBook(carsServerService.loadAuthorBooks(selectedAuthorId));
 
-            authorList.setCountry(libraryServerService.loadAllCountries());
-            authorList.setBook(libraryServerService.loadNotAllBooks(selectedAuthorId));
+            authorList.setCountry(carsServerService.loadAllCountries());
+            authorList.setBook(carsServerService.loadNotAllBooks(selectedAuthorId));
 
-            EditAuthorDialog editAuthorDialog = new EditAuthorDialog(authorList, authorEdit, changedAuthor -> {
-                libraryServerService.updateAuthor(selectedAuthorId, changedAuthor);
+            EditAuthorDialog editAuthorDialog = new EditAuthorDialog(authorList, makerEdit, changedAuthor -> {
+                carsServerService.updateAuthor(selectedAuthorId, changedAuthor);
                 refreshTableData();
                 bookPanel.refreshTableData();
             });
@@ -221,8 +221,8 @@ public class AuthorPanel extends JPanel {
                     "Вопрос",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                libraryServerService.deleteAuthorById(selectedAuthorId);
-                libraryServerService.deleteAuthorBooks(selectedAuthorId);
+                carsServerService.deleteAuthorById(selectedAuthorId);
+                carsServerService.deleteAuthorBooks(selectedAuthorId);
                 refreshTableData();
                 bookPanel.refreshTableData();
             }

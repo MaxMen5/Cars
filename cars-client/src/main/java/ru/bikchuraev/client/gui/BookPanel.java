@@ -2,13 +2,13 @@ package ru.bikchuraev.client.gui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.bikchuraev.api.editClasses.BookEdit;
-import ru.bikchuraev.api.editClasses.BookFilter;
-import ru.bikchuraev.api.editClasses.BookLists;
-import ru.bikchuraev.api.editClasses.FullBook;
-import ru.bikchuraev.api.editClasses.SmallAuthor;
-import ru.bikchuraev.api.entity.Genre;
-import ru.bikchuraev.api.servcie.LibraryServerService;
+import ru.bikchuraev.api.editClasses.CarEdit;
+import ru.bikchuraev.api.editClasses.CarFilter;
+import ru.bikchuraev.api.editClasses.CarLists;
+import ru.bikchuraev.api.editClasses.FullCar;
+import ru.bikchuraev.api.editClasses.SmallMaker;
+import ru.bikchuraev.api.entity.Body;
+import ru.bikchuraev.api.servcie.CarsServerService;
 
 import javax.annotation.PostConstruct;
 import javax.swing.*;
@@ -24,12 +24,12 @@ public class BookPanel extends JPanel {
     private final BookTableModel tableModel = new BookTableModel();
     private final JTable table = new JTable(tableModel);
 
-    private final BookLists bookLists = new BookLists();
+    private final CarLists carLists = new CarLists();
 
     @Autowired
     private AuthorPanel authorPanel;
     @Autowired
-    private LibraryServerService libraryServerService;
+    private CarsServerService carsServerService;
 
     private final JTextField filterNameField = new JTextField();
     private final JTextField filterAuthorField = new JTextField();
@@ -43,8 +43,8 @@ public class BookPanel extends JPanel {
 
     @PostConstruct
     public void init() {
-        bookLists.setAuthors(libraryServerService.loadSmallAuthors());
-        bookLists.setGenres(libraryServerService.loadAllGenres());
+        carLists.setAuthors(carsServerService.loadSmallAuthors());
+        carLists.setBodies(carsServerService.loadAllGenres());
 
         createGUI();
     }
@@ -103,19 +103,19 @@ public class BookPanel extends JPanel {
     }
 
     public void refreshTableData() {
-        boolean isLoggedIn = libraryServerService.isLoggedIn();
+        boolean isLoggedIn = carsServerService.isLoggedIn();
         addButton.setEnabled(isLoggedIn);
         editButton.setEnabled(isLoggedIn);
         removeButton.setEnabled(isLoggedIn);
 
-        BookFilter bookFilter = new BookFilter();
-        bookFilter.setName(filterNameField.getText());
-        bookFilter.setAuthor(filterAuthorField.getText());
-        bookFilter.setYear(filterYearField.getText());
-        bookFilter.setGenre(filterGenreField.getText());
-        bookFilter.setPage(filterPagesField.getText());
+        CarFilter carFilter = new CarFilter();
+        carFilter.setName(filterNameField.getText());
+        carFilter.setAuthor(filterAuthorField.getText());
+        carFilter.setYear(filterYearField.getText());
+        carFilter.setGenre(filterGenreField.getText());
+        carFilter.setPage(filterPagesField.getText());
 
-        List<FullBook> allBooks = libraryServerService.loadAllBooks(bookFilter);
+        List<FullCar> allBooks = carsServerService.loadAllBooks(carFilter);
         tableModel.initWith(allBooks);
         table.revalidate();
         table.repaint();
@@ -129,8 +129,8 @@ public class BookPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EditBookDialog editBookDialog = new EditBookDialog(bookLists, bookEdit -> {
-                libraryServerService.saveBook(bookEdit);
+            EditBookDialog editBookDialog = new EditBookDialog(carLists, bookEdit -> {
+                carsServerService.saveBook(bookEdit);
                 refreshTableData();
                 authorPanel.refreshTableData();
             });
@@ -160,25 +160,25 @@ public class BookPanel extends JPanel {
 
             Integer selectedBookId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
 
-            BookEdit bookEdit = new BookEdit();
-            bookEdit.setName((String) tableModel.getValueAt(selectedRowIndex, 1));
+            CarEdit carEdit = new CarEdit();
+            carEdit.setName((String) tableModel.getValueAt(selectedRowIndex, 1));
 
-            SmallAuthor author = new SmallAuthor();
+            SmallMaker author = new SmallMaker();
             author.setId((Integer) tableModel.getValueAt(selectedRowIndex, 2));
             author.setName((String) tableModel.getValueAt(selectedRowIndex, 3));
 
-            bookEdit.setAuthor(author);
-            bookEdit.setYear((Integer) tableModel.getValueAt(selectedRowIndex, 4));
+            carEdit.setAuthor(author);
+            carEdit.setYear((Integer) tableModel.getValueAt(selectedRowIndex, 4));
 
-            Genre genre = new Genre();
-            genre.setId((Integer) tableModel.getValueAt(selectedRowIndex, 5));
-            genre.setName((String) tableModel.getValueAt(selectedRowIndex, 6));
+            Body body = new Body();
+            body.setId((Integer) tableModel.getValueAt(selectedRowIndex, 5));
+            body.setName((String) tableModel.getValueAt(selectedRowIndex, 6));
 
-            bookEdit.setGenre(genre);
-            bookEdit.setPages((Integer) tableModel.getValueAt(selectedRowIndex, 7));
+            carEdit.setBody(body);
+            carEdit.setPages((Integer) tableModel.getValueAt(selectedRowIndex, 7));
 
-            EditBookDialog editBookDialog = new EditBookDialog(bookLists, bookEdit, changedBook -> {
-                libraryServerService.updateBook(selectedBookId, changedBook);
+            EditBookDialog editBookDialog = new EditBookDialog(carLists, carEdit, changedBook -> {
+                carsServerService.updateBook(selectedBookId, changedBook);
                 refreshTableData();
                 authorPanel.refreshTableData();
             });
@@ -215,7 +215,7 @@ public class BookPanel extends JPanel {
                     "Вопрос",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                libraryServerService.deleteBookById(selectedBookId);
+                carsServerService.deleteBookById(selectedBookId);
                 refreshTableData();
                 authorPanel.refreshTableData();
             }
