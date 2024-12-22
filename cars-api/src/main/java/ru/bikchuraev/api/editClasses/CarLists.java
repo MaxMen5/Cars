@@ -14,6 +14,6 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class CarLists implements Serializable {
-    private List<SmallMaker> authors;
+    private List<SmallMaker> makers;
     private List<Body> bodies;
 }

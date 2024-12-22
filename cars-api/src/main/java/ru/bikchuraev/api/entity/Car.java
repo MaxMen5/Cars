@@ -14,8 +14,8 @@ import java.io.Serializable;
 public class Car implements IEntity, Serializable {
     private Integer id;
     private String name;
-    private Integer authorId;
+    private Integer makerId;
     private Integer year;
-    private Integer genreId;
-    private Integer pageCount;
+    private Integer bodyId;
+    private Integer mile;
 }

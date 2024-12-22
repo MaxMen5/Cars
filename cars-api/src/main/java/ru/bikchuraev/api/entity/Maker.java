@@ -16,5 +16,5 @@ public class Maker implements IEntity, Serializable {
     private String name;
     private Integer countryId;
     private Integer birthYear;
-    private String bookList;
+    private String carList;
 }

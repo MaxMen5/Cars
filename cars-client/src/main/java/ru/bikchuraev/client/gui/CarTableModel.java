@@ -6,10 +6,10 @@ import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
 import java.util.List;
 
-public class BookTableModel extends AbstractTableModel {
+public class CarTableModel extends AbstractTableModel {
 
     private static final List<String> COLUMNS = Arrays.asList(
-            "id", "Название", "Id автора", "Автор", "Год выхода", "Id жанра", "Жанр", "Кол-во страниц"
+            "id", "Модель", "Id производителя", "Производитель", "Год выпуска", "Id кузова", "Кузов", "Пробег"
     );
     private static final List<Class<?>> TYPES = Arrays.asList(
             Integer.class, String.class, Integer.class, String.class, Integer.class, Integer.class, String.class, Integer.class
@@ -43,17 +43,17 @@ public class BookTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        FullCar book = data.get(rowIndex);
+        FullCar car = data.get(rowIndex);
 
         switch (columnIndex) {
-            case 0: return book.getId();
-            case 1: return book.getName();
-            case 2: return book.getAuthorId();
-            case 3: return book.getAuthorName();
-            case 4: return book.getYear();
-            case 5: return book.getGenreId();
-            case 6: return book.getGenreName();
-            case 7: return book.getPageCount();
+            case 0: return car.getId();
+            case 1: return car.getName();
+            case 2: return car.getMakerId();
+            case 3: return car.getMakerName();
+            case 4: return car.getYear();
+            case 5: return car.getBodyId();
+            case 6: return car.getBodyName();
+            case 7: return car.getMile();
             default: return null;
         }
     }

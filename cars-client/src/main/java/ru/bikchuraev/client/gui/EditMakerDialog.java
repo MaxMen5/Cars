@@ -16,37 +16,37 @@ import static ru.bikchuraev.client.utils.ClientUtils.isBlank;
 import static ru.bikchuraev.client.utils.ClientUtils.isInteger;
 import static ru.bikchuraev.client.utils.ClientUtils.toStringSafe;
 
-public class EditAuthorDialog extends JDialog {
+public class EditMakerDialog extends JDialog {
 
-    private static final String TITLEADD = "Добавление автора";
-    private static final String TITLEEDIT = "Редактирование автора";
+    private static final String TITLEADD = "Добавление производителя";
+    private static final String TITLEEDIT = "Редактирование производителя";
 
     private final JComboBox countries = new JComboBox();
     private final JTextField nameField = new JTextField();
     private final JTextField yearField = new JTextField();
 
-    private JList<FullCar> authorBookList = createBookList();
-    private JList<FullCar> allBookList = createBookList();
+    private JList<FullCar> makerCarList = createCarList();
+    private JList<FullCar> allcarList = createCarList();
 
-    private final MakerLists authorList;
+    private final MakerLists makerList;
     private final MakerEdit prevData;
-    private final Consumer<MakerEdit> newAuthorConsumer;
+    private final Consumer<MakerEdit> newMakerConsumer;
 
-    public EditAuthorDialog(MakerLists authorList, Consumer<MakerEdit> newAuthorConsumer) {
-        this(authorList, null, newAuthorConsumer);
+    public EditMakerDialog(MakerLists makerList, Consumer<MakerEdit> newMakerConsumer) {
+        this(makerList, null, newMakerConsumer);
     }
 
-    public EditAuthorDialog(MakerLists authorList, MakerEdit prevData, Consumer<MakerEdit> newAuthorConsumer) {
-        this.newAuthorConsumer = newAuthorConsumer;
-        this.authorList = authorList;
+    public EditMakerDialog(MakerLists makerList, MakerEdit prevData, Consumer<MakerEdit> newMakerConsumer) {
+        this.newMakerConsumer = newMakerConsumer;
+        this.makerList = makerList;
         this.prevData = prevData;
 
         if (prevData != null) {
             setTitle(TITLEEDIT);
         } else setTitle(TITLEADD);
 
-        for (int i = 0; i < authorList.getCountry().size(); i++) {
-            countries.addItem(authorList.getCountry().get(i).getName());
+        for (int i = 0; i < makerList.getCountry().size(); i++) {
+            countries.addItem(makerList.getCountry().get(i).getName());
         }
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -59,26 +59,26 @@ public class EditAuthorDialog extends JDialog {
 
         JPanel listPanel = new JPanel(new GridLayout(1, 2, 5, 5));
 
-        listPanel.add(new JScrollPane(allBookList));
-        listPanel.add(new JScrollPane(authorBookList));
+        listPanel.add(new JScrollPane(allcarList));
+        listPanel.add(new JScrollPane(makerCarList));
 
-        DefaultListModel<FullCar> authorBookModel = new DefaultListModel<>();
+        DefaultListModel<FullCar> makerCarModel = new DefaultListModel<>();
         if (prevData != null) {
-            for (FullCar book : prevData.getBook()) {
-                authorBookModel.addElement(book);
+            for (FullCar book : prevData.getCar()) {
+                makerCarModel.addElement(book);
             }
         }
-        authorBookList.setModel(authorBookModel);
+        makerCarList.setModel(makerCarModel);
 
-        DefaultListModel<FullCar> allBookModel = new DefaultListModel<>();
-        for (FullCar book : authorList.getBook()) {
-            allBookModel.addElement(book);
+        DefaultListModel<FullCar> allCarModel = new DefaultListModel<>();
+        for (FullCar book : makerList.getCar()) {
+            allCarModel.addElement(book);
         }
-        allBookList.setModel(allBookModel);
+        allcarList.setModel(allCarModel);
 
-        namePanel.add(new JLabel("Имя:"), BorderLayout.WEST);
+        namePanel.add(new JLabel("Производитель:"), BorderLayout.WEST);
         countryPanel.add(new JLabel("Страна:"), BorderLayout.WEST);
-        yearPanel.add(new JLabel("Год выхода:"), BorderLayout.WEST);
+        yearPanel.add(new JLabel("Год основания:"), BorderLayout.WEST);
 
         if (prevData != null) {
             nameField.setText(prevData.getName());
@@ -104,40 +104,40 @@ public class EditAuthorDialog extends JDialog {
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        allBookList.addMouseListener(new MouseAdapter() {
+        allcarList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
-                    FullCar selectedValue = allBookList.getSelectedValue();
-                    ((DefaultListModel<FullCar>) allBookList.getModel()).removeElement(selectedValue);
-                    ((DefaultListModel<FullCar>) authorBookList.getModel()).addElement(selectedValue);
-                    allBookList.revalidate();
-                    allBookList.repaint();
-                    authorBookList.revalidate();
-                    authorBookList.repaint();
+                    FullCar selectedValue = allcarList.getSelectedValue();
+                    ((DefaultListModel<FullCar>) allcarList.getModel()).removeElement(selectedValue);
+                    ((DefaultListModel<FullCar>) makerCarList.getModel()).addElement(selectedValue);
+                    allcarList.revalidate();
+                    allcarList.repaint();
+                    makerCarList.revalidate();
+                    makerCarList.repaint();
                 }
             }
         });
 
-        authorBookList.addMouseListener(new MouseAdapter() {
+        makerCarList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
-                    FullCar selectedValue = authorBookList.getSelectedValue();
-                    ((DefaultListModel<FullCar>) authorBookList.getModel()).removeElement(selectedValue);
-                    ((DefaultListModel<FullCar>) allBookList.getModel()).addElement(selectedValue);
-                    allBookList.revalidate();
-                    allBookList.repaint();
-                    authorBookList.revalidate();
-                    authorBookList.repaint();
+                    FullCar selectedValue = makerCarList.getSelectedValue();
+                    ((DefaultListModel<FullCar>) makerCarList.getModel()).removeElement(selectedValue);
+                    ((DefaultListModel<FullCar>) allcarList.getModel()).addElement(selectedValue);
+                    allcarList.revalidate();
+                    allcarList.repaint();
+                    makerCarList.revalidate();
+                    makerCarList.repaint();
                 }
             }
         });
     }
 
-    private JList<FullCar> createBookList() {
-        JList<FullCar> bookList = new JList<>();
-        bookList.setCellRenderer(new DefaultListCellRenderer() {
+    private JList<FullCar> createCarList() {
+        JList<FullCar> carList = new JList<>();
+        carList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -149,7 +149,7 @@ public class EditAuthorDialog extends JDialog {
                 return renderer;
             }
         });
-        return bookList;
+        return carList;
     }
 
     private class SaveAction extends AbstractAction {
@@ -163,7 +163,7 @@ public class EditAuthorDialog extends JDialog {
                     || countries.getSelectedItem() == null
                     || isBlank(yearField.getText())) {
                 JOptionPane.showMessageDialog(
-                        EditAuthorDialog.this,
+                        EditMakerDialog.this,
                         "Не все данные введены!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);
@@ -172,7 +172,7 @@ public class EditAuthorDialog extends JDialog {
 
             if (!isInteger(yearField.getText())) {
                 JOptionPane.showMessageDialog(
-                        EditAuthorDialog.this,
+                        EditMakerDialog.this,
                         "Введены некорректные данные!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);
@@ -180,9 +180,9 @@ public class EditAuthorDialog extends JDialog {
             }
 
             Country country = new Country();
-            for (int i = 0; i < authorList.getCountry().size(); i++) {
-                if (authorList.getCountry().get(i).getName().equals(countries.getSelectedItem())) {
-                    country = authorList.getCountry().get(i);
+            for (int i = 0; i < makerList.getCountry().size(); i++) {
+                if (makerList.getCountry().get(i).getName().equals(countries.getSelectedItem())) {
+                    country = makerList.getCountry().get(i);
                     break;
                 }
             }
@@ -191,7 +191,7 @@ public class EditAuthorDialog extends JDialog {
             makerEdit.setName(nameField.getText());
             makerEdit.setCountry(country);
             makerEdit.setYear(Integer.parseInt(yearField.getText()));
-            newAuthorConsumer.accept(makerEdit);
+            newMakerConsumer.accept(makerEdit);
             dispose();
         }
     }

@@ -17,5 +17,5 @@ public class FullMaker implements Serializable {
     private Integer countryId;
     private String countryName;
     private Integer birthYear;
-    private String bookList;
+    private String carList;
 }

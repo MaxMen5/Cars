@@ -6,10 +6,10 @@ import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
 import java.util.List;
 
-public class AuthorTableModel extends AbstractTableModel {
+public class MakerTableModel extends AbstractTableModel {
 
     private static final List<String> COLUMNS = Arrays.asList(
-            "id", "Имя", "Id страны", "Страна", "Год рождения", "Список книг"
+            "id", "Название компании", "Id страны", "Страна", "Год основания", "Список автомобилей"
     );
     private static final List<Class<?>> TYPES = Arrays.asList(
             Integer.class, String.class, Integer.class, String.class, Integer.class, String.class
@@ -43,15 +43,15 @@ public class AuthorTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        FullMaker author = data.get(rowIndex);
+        FullMaker maker = data.get(rowIndex);
 
         switch (columnIndex) {
-            case 0: return author.getId();
-            case 1: return author.getName();
-            case 2: return author.getCountryId();
-            case 3: return author.getCountryName();
-            case 4: return author.getBirthYear();
-            case 5: return author.getBookList();
+            case 0: return maker.getId();
+            case 1: return maker.getName();
+            case 2: return maker.getCountryId();
+            case 3: return maker.getCountryName();
+            case 4: return maker.getBirthYear();
+            case 5: return maker.getCarList();
             default: return null;
         }
     }

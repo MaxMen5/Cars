@@ -13,19 +13,19 @@ import static ru.bikchuraev.client.utils.ClientUtils.prepareWindowSizeWithShifts
 @Component
 public final class MainFrame extends JFrame {
 
-    private static final String TITLE = "Library";
+    private static final String TITLE = "Cars";
 
     private final CarsServerService carsServerService;
-    private final BookPanel bookPanel;
-    private final AuthorPanel authorPanel;
+    private final CarPanel carPanel;
+    private final MakerPanel makerPanel;
     private final LogInDialog logInDialog;
 
 
-    public MainFrame(CarsServerService carsServerService, BookPanel bookPanel, LogInDialog logInDialog, AuthorPanel authorPanel) {
+    public MainFrame(CarsServerService carsServerService, CarPanel carPanel, LogInDialog logInDialog, MakerPanel makerPanel) {
         this.carsServerService = carsServerService;
-        this.bookPanel = bookPanel;
+        this.carPanel = carPanel;
         this.logInDialog = logInDialog;
-        this.authorPanel = authorPanel;
+        this.makerPanel = makerPanel;
     }
 
     @PostConstruct
@@ -73,8 +73,8 @@ public final class MainFrame extends JFrame {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     carsServerService.logout();
-                    authorPanel.refreshTableData();
-                    bookPanel.refreshTableData();
+                    makerPanel.refreshTableData();
+                    carPanel.refreshTableData();
                     authorization.setText("Войти");
                 }
             }
@@ -86,8 +86,8 @@ public final class MainFrame extends JFrame {
     private JTabbedPane createTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab("Книги", bookPanel);
-        tabbedPane.addTab("Авторы", authorPanel);
+        tabbedPane.addTab("Автомобили", carPanel);
+        tabbedPane.addTab("Производители", makerPanel);
 
         tabbedPane.setSelectedIndex(0);
 

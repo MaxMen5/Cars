@@ -13,8 +13,8 @@ import java.io.Serializable;
 @ToString
 public class CarFilter implements Serializable {
     private String name;
-    private String author;
+    private String maker;
     private String year;
-    private String genre;
-    private String page;
+    private String body;
+    private String mile;
 }

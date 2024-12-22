@@ -14,8 +14,8 @@ import java.io.Serializable;
 @ToString
 public class CarEdit implements Serializable {
     private String name;
-    private SmallMaker author;
+    private SmallMaker maker;
     private Integer year;
     private Body body;
-    private Integer pages;
+    private Integer mile;
 }

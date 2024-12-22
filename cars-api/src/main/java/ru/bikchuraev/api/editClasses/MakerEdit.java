@@ -17,5 +17,5 @@ public class MakerEdit implements Serializable {
     private String name;
     private Country country;
     private Integer year;
-    private List<FullCar> book;
+    private List<FullCar> car;
 }

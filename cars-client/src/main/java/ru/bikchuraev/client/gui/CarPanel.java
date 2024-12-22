@@ -19,23 +19,23 @@ import java.util.List;
 import static ru.bikchuraev.client.utils.ClientUtils.isInteger;
 
 @Component
-public class BookPanel extends JPanel {
+public class CarPanel extends JPanel {
 
-    private final BookTableModel tableModel = new BookTableModel();
+    private final CarTableModel tableModel = new CarTableModel();
     private final JTable table = new JTable(tableModel);
 
     private final CarLists carLists = new CarLists();
 
     @Autowired
-    private AuthorPanel authorPanel;
+    private MakerPanel makerPanel;
     @Autowired
     private CarsServerService carsServerService;
 
     private final JTextField filterNameField = new JTextField();
-    private final JTextField filterAuthorField = new JTextField();
+    private final JTextField filterMakerField = new JTextField();
     private final JTextField filterYearField = new JTextField();
-    private final JTextField filterGenreField = new JTextField();
-    private final JTextField filterPagesField = new JTextField();
+    private final JTextField filterBodyField = new JTextField();
+    private final JTextField filterMileField = new JTextField();
 
     private JButton addButton;
     private JButton editButton;
@@ -43,7 +43,7 @@ public class BookPanel extends JPanel {
 
     @PostConstruct
     public void init() {
-        carLists.setAuthors(carsServerService.loadSmallMakers());
+        carLists.setMakers(carsServerService.loadSmallMakers());
         carLists.setBodies(carsServerService.loadAllBody());
 
         createGUI();
@@ -82,21 +82,21 @@ public class BookPanel extends JPanel {
         removeButton.setEnabled(false);
         toolBar.add(removeButton);
 
-        toolBar.add(new JLabel("   Название: "));
+        toolBar.add(new JLabel("   Модель: "));
         toolBar.add(filterNameField);
         filterNameField.setPreferredSize(new Dimension(100, 25));
-        toolBar.add(new JLabel("   Автор: "));
-        toolBar.add(filterAuthorField);
-        filterAuthorField.setPreferredSize(new Dimension(100, 25));
-        toolBar.add(new JLabel("   Год выхода: "));
+        toolBar.add(new JLabel("   Производитель: "));
+        toolBar.add(filterMakerField);
+        filterMakerField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Год выпуска: "));
         toolBar.add(filterYearField);
         filterYearField.setPreferredSize(new Dimension(100, 25));
-        toolBar.add(new JLabel("   Жанр: "));
-        toolBar.add(filterGenreField);
-        filterGenreField.setPreferredSize(new Dimension(100, 25));
-        toolBar.add(new JLabel("   Кол-во страниц: "));
-        toolBar.add(filterPagesField);
-        filterPagesField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Кузов: "));
+        toolBar.add(filterBodyField);
+        filterBodyField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Пробег: "));
+        toolBar.add(filterMileField);
+        filterMileField.setPreferredSize(new Dimension(100, 25));
         toolBar.add(new JButton(new FilterBookAction()));
 
         return toolBar;
@@ -110,38 +110,38 @@ public class BookPanel extends JPanel {
 
         CarFilter carFilter = new CarFilter();
         carFilter.setName(filterNameField.getText());
-        carFilter.setAuthor(filterAuthorField.getText());
+        carFilter.setMaker(filterMakerField.getText());
         carFilter.setYear(filterYearField.getText());
-        carFilter.setGenre(filterGenreField.getText());
-        carFilter.setPage(filterPagesField.getText());
+        carFilter.setBody(filterBodyField.getText());
+        carFilter.setMile(filterMileField.getText());
 
-        List<FullCar> allBooks = carsServerService.loadAllCars(carFilter);
-        tableModel.initWith(allBooks);
+        List<FullCar> allCars = carsServerService.loadAllCars(carFilter);
+        tableModel.initWith(allCars);
         table.revalidate();
         table.repaint();
     }
 
     private class AddBookAction extends AbstractAction {
         AddBookAction() {
-            putValue(SHORT_DESCRIPTION, "Добавить книгу");
+            putValue(SHORT_DESCRIPTION, "Добавить автомобиль");
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_add.gif")));
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EditBookDialog editBookDialog = new EditBookDialog(carLists, bookEdit -> {
-                carsServerService.saveCar(bookEdit);
+            EditCarDialog editCarDialog = new EditCarDialog(carLists, carEdit -> {
+                carsServerService.saveCar(carEdit);
                 refreshTableData();
-                authorPanel.refreshTableData();
+                makerPanel.refreshTableData();
             });
-            editBookDialog.setLocationRelativeTo(BookPanel.this);
-            editBookDialog.setVisible(true);
+            editCarDialog.setLocationRelativeTo(CarPanel.this);
+            editCarDialog.setVisible(true);
         }
     }
 
     private class EditBookAction extends AbstractAction {
         EditBookAction() {
-            putValue(SHORT_DESCRIPTION, "Изменить книгу");
+            putValue(SHORT_DESCRIPTION, "Изменить автомобиль");
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_edit.gif")));
         }
 
@@ -151,23 +151,23 @@ public class BookPanel extends JPanel {
             int rowCount = tableModel.getRowCount();
             if (selectedRowIndex == -1 || selectedRowIndex >= rowCount) {
                 JOptionPane.showMessageDialog(
-                        BookPanel.this,
-                        "Для редпктирования выберите книгу!",
+                        CarPanel.this,
+                        "Для редактирования выберите автомобиль!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            Integer selectedBookId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
+            Integer selectedCarId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
 
             CarEdit carEdit = new CarEdit();
             carEdit.setName((String) tableModel.getValueAt(selectedRowIndex, 1));
 
-            SmallMaker author = new SmallMaker();
-            author.setId((Integer) tableModel.getValueAt(selectedRowIndex, 2));
-            author.setName((String) tableModel.getValueAt(selectedRowIndex, 3));
+            SmallMaker maker = new SmallMaker();
+            maker.setId((Integer) tableModel.getValueAt(selectedRowIndex, 2));
+            maker.setName((String) tableModel.getValueAt(selectedRowIndex, 3));
 
-            carEdit.setAuthor(author);
+            carEdit.setMaker(maker);
             carEdit.setYear((Integer) tableModel.getValueAt(selectedRowIndex, 4));
 
             Body body = new Body();
@@ -175,21 +175,21 @@ public class BookPanel extends JPanel {
             body.setName((String) tableModel.getValueAt(selectedRowIndex, 6));
 
             carEdit.setBody(body);
-            carEdit.setPages((Integer) tableModel.getValueAt(selectedRowIndex, 7));
+            carEdit.setMile((Integer) tableModel.getValueAt(selectedRowIndex, 7));
 
-            EditBookDialog editBookDialog = new EditBookDialog(carLists, carEdit, changedBook -> {
-                carsServerService.updateCar(selectedBookId, changedBook);
+            EditCarDialog editCarDialog = new EditCarDialog(carLists, carEdit, changedCar -> {
+                carsServerService.updateCar(selectedCarId, changedCar);
                 refreshTableData();
-                authorPanel.refreshTableData();
+                makerPanel.refreshTableData();
             });
-            editBookDialog.setLocationRelativeTo(BookPanel.this);
-            editBookDialog.setVisible(true);
+            editCarDialog.setLocationRelativeTo(CarPanel.this);
+            editCarDialog.setVisible(true);
         }
     }
 
     private class RemoveBookAction extends AbstractAction {
         RemoveBookAction() {
-            putValue(SHORT_DESCRIPTION, "Удалить книгу");
+            putValue(SHORT_DESCRIPTION, "Удалить автомобиль");
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_remove.gif")));
         }
 
@@ -199,43 +199,43 @@ public class BookPanel extends JPanel {
             int rowCount = tableModel.getRowCount();
             if (selectedRowIndex == -1 || selectedRowIndex >= rowCount) {
                 JOptionPane.showMessageDialog(
-                        BookPanel.this,
-                        "Для удаления выберите книгу!",
+                        CarPanel.this,
+                        "Для удаления выберите автомобиль!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            Integer selectedBookId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
-            String selectedBookName = (String) tableModel.getValueAt(selectedRowIndex, 1);
+            Integer selectedCarId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
+            String selectedCarName = (String) tableModel.getValueAt(selectedRowIndex, 1);
 
             if (JOptionPane.showConfirmDialog(
-                    BookPanel.this,
-                    "Удалить книгу '" + selectedBookName + "'?",
+                    CarPanel.this,
+                    "Удалить автомобиль '" + selectedCarName + "'?",
                     "Вопрос",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                carsServerService.deleteCarById(selectedBookId);
+                carsServerService.deleteCarById(selectedCarId);
                 refreshTableData();
-                authorPanel.refreshTableData();
+                makerPanel.refreshTableData();
             }
         }
     }
 
     private class FilterBookAction extends AbstractAction {
         FilterBookAction() {
-            putValue(SHORT_DESCRIPTION, "Фильтровать книги");
+            putValue(SHORT_DESCRIPTION, "Фильтровать автомобили");
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_refresh.gif")));
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (isInteger(filterYearField.getText()) && isInteger(filterPagesField.getText())) {
+            if (isInteger(filterYearField.getText()) && isInteger(filterMileField.getText())) {
                 refreshTableData();
             }
             else {
                 JOptionPane.showMessageDialog(
-                        BookPanel.this,
+                        CarPanel.this,
                         "Введены некорректные данные!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);

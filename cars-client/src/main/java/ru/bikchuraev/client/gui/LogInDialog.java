@@ -14,9 +14,9 @@ public class LogInDialog extends JDialog {
     @Autowired
     private CarsServerService carsServerService;
     @Autowired
-    private BookPanel bookPanel;
+    private CarPanel carPanel;
     @Autowired
-    private AuthorPanel authorPanel;
+    private MakerPanel makerPanel;
 
     private static final String TITLE = "Авторизация";
 
@@ -58,8 +58,8 @@ public class LogInDialog extends JDialog {
         public void actionPerformed(ActionEvent e) {
             boolean success = carsServerService.login(loginField.getText(), passwordField.getText());
             if (success) {
-                authorPanel.refreshTableData();
-                bookPanel.refreshTableData();
+                makerPanel.refreshTableData();
+                carPanel.refreshTableData();
                 dispose();
             }
             loginField.setText("");

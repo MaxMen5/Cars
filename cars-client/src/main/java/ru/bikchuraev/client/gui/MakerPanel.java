@@ -19,17 +19,17 @@ import java.util.List;
 import static ru.bikchuraev.client.utils.ClientUtils.isInteger;
 
 @Component
-public class AuthorPanel extends JPanel {
+public class MakerPanel extends JPanel {
 
-    private final AuthorTableModel tableModel = new AuthorTableModel();
+    private final MakerTableModel tableModel = new MakerTableModel();
     private final JTable table = createTable();
 
     @Autowired
-    private BookPanel bookPanel;
+    private CarPanel carPanel;
     @Autowired
     private CarsServerService carsServerService;
 
-    private final MakerLists authorList = new MakerLists();
+    private final MakerLists makerList = new MakerLists();
 
     private final JTextField filterNameField = new JTextField();
     private final JTextField filterCountryField = new JTextField();
@@ -95,13 +95,13 @@ public class AuthorPanel extends JPanel {
         removeButton = new JButton(new RemoveBookAction());
         removeButton.setEnabled(false);
         toolBar.add(removeButton);
-        toolBar.add(new JLabel("   Имя: "));
+        toolBar.add(new JLabel("   Производитель: "));
         toolBar.add(filterNameField);
         filterNameField.setPreferredSize(new Dimension(100, 25));
         toolBar.add(new JLabel("   Страна: "));
         toolBar.add(filterCountryField);
         filterCountryField.setPreferredSize(new Dimension(100, 25));
-        toolBar.add(new JLabel("   Год рождения: "));
+        toolBar.add(new JLabel("   Год основания: "));
         toolBar.add(filterYearField);
         filterYearField.setPreferredSize(new Dimension(100, 25));
         toolBar.add(new JButton(new FilterAuthorAction()));
@@ -128,29 +128,29 @@ public class AuthorPanel extends JPanel {
 
     private class AddBookAction extends AbstractAction {
         AddBookAction() {
-            putValue(SHORT_DESCRIPTION, "Добавить автора");
+            putValue(SHORT_DESCRIPTION, "Добавить производителя");
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_add.gif")));
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            authorList.setCountry(carsServerService.loadAllCountries());
-            authorList.setBook(carsServerService.loadAllCars());
+            makerList.setCountry(carsServerService.loadAllCountries());
+            makerList.setCar(carsServerService.loadAllCars());
 
-            EditAuthorDialog editauthorDialog = new EditAuthorDialog(authorList, authorEdit -> {
-                carsServerService.saveMaker(authorEdit);
+            EditMakerDialog editMakerDialog = new EditMakerDialog(makerList, makerEdit -> {
+                carsServerService.saveMaker(makerEdit);
                 refreshTableData();
-                bookPanel.refreshTableData();
+                carPanel.refreshTableData();
             });
-            editauthorDialog.setLocationRelativeTo(AuthorPanel.this);
-            editauthorDialog.setVisible(true);
+            editMakerDialog.setLocationRelativeTo(MakerPanel.this);
+            editMakerDialog.setVisible(true);
         }
     }
 
     private class EditBookAction extends AbstractAction {
         EditBookAction() {
-            putValue(SHORT_DESCRIPTION, "Изменить автора");
+            putValue(SHORT_DESCRIPTION, "Изменить производителя");
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_edit.gif")));
         }
 
@@ -160,14 +160,14 @@ public class AuthorPanel extends JPanel {
             int rowCount = tableModel.getRowCount();
             if (selectedRowIndex == -1 || selectedRowIndex >= rowCount) {
                 JOptionPane.showMessageDialog(
-                        AuthorPanel.this,
-                        "Для редпктирования выберите автора!",
+                        MakerPanel.this,
+                        "Для редпктирования выберите производителя!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            Integer selectedAuthorId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
+            Integer selectedMakerId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
 
             MakerEdit makerEdit = new MakerEdit();
             makerEdit.setName((String) tableModel.getValueAt(selectedRowIndex, 1));
@@ -178,24 +178,24 @@ public class AuthorPanel extends JPanel {
 
             makerEdit.setCountry(country);
             makerEdit.setYear((Integer) tableModel.getValueAt(selectedRowIndex, 4));
-            makerEdit.setBook(carsServerService.loadMakerCars(selectedAuthorId));
+            makerEdit.setCar(carsServerService.loadMakerCars(selectedMakerId));
 
-            authorList.setCountry(carsServerService.loadAllCountries());
-            authorList.setBook(carsServerService.loadNotAllCars(selectedAuthorId));
+            makerList.setCountry(carsServerService.loadAllCountries());
+            makerList.setCar(carsServerService.loadNotAllCars(selectedMakerId));
 
-            EditAuthorDialog editAuthorDialog = new EditAuthorDialog(authorList, makerEdit, changedAuthor -> {
-                carsServerService.updateMaker(selectedAuthorId, changedAuthor);
+            EditMakerDialog editMakerDialog = new EditMakerDialog(makerList, makerEdit, changedAuthor -> {
+                carsServerService.updateMaker(selectedMakerId, changedAuthor);
                 refreshTableData();
-                bookPanel.refreshTableData();
+                carPanel.refreshTableData();
             });
-            editAuthorDialog.setLocationRelativeTo(AuthorPanel.this);
-            editAuthorDialog.setVisible(true);
+            editMakerDialog.setLocationRelativeTo(MakerPanel.this);
+            editMakerDialog.setVisible(true);
         }
     }
 
     private class RemoveBookAction extends AbstractAction {
         RemoveBookAction() {
-            putValue(SHORT_DESCRIPTION, "Удалить автора");
+            putValue(SHORT_DESCRIPTION, "Удалить производителя");
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_remove.gif")));
         }
 
@@ -205,33 +205,33 @@ public class AuthorPanel extends JPanel {
             int rowCount = tableModel.getRowCount();
             if (selectedRowIndex == -1 || selectedRowIndex >= rowCount) {
                 JOptionPane.showMessageDialog(
-                        AuthorPanel.this,
-                        "Для удаления выберите автора!",
+                        MakerPanel.this,
+                        "Для удаления выберите производителя!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            Integer selectedAuthorId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
-            String selectedAuthorName = (String) tableModel.getValueAt(selectedRowIndex, 1);
+            Integer selectedMakerId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
+            String selectedMakerName = (String) tableModel.getValueAt(selectedRowIndex, 1);
 
             if (JOptionPane.showConfirmDialog(
-                    AuthorPanel.this,
-                    "Удалить автора '" + selectedAuthorName + "'? Все его книги будут также удалены!",
+                    MakerPanel.this,
+                    "Удалить производителя '" + selectedMakerName + "'? Все его автомобили будут также удалены!",
                     "Вопрос",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                carsServerService.deleteMakerById(selectedAuthorId);
-                carsServerService.deleteMakerCars(selectedAuthorId);
+                carsServerService.deleteMakerById(selectedMakerId);
+                carsServerService.deleteMakerCars(selectedMakerId);
                 refreshTableData();
-                bookPanel.refreshTableData();
+                carPanel.refreshTableData();
             }
         }
     }
 
     private class FilterAuthorAction extends AbstractAction {
         FilterAuthorAction() {
-            putValue(SHORT_DESCRIPTION, "Фильтровать авторов");
+            putValue(SHORT_DESCRIPTION, "Фильтровать производителей");
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_refresh.gif")));
         }
 
@@ -242,7 +242,7 @@ public class AuthorPanel extends JPanel {
             }
             else {
                 JOptionPane.showMessageDialog(
-                        AuthorPanel.this,
+                        MakerPanel.this,
                         "Введены некорректные данные!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);
