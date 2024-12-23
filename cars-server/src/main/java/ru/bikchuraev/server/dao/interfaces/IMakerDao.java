@@ -20,7 +20,7 @@ public interface IMakerDao extends IDao<Maker> {
             maker.setName(resultSet.getString("name"));
             maker.setCountryId(resultSet.getInt("maker_country_id"));
             maker.setBirthYear(resultSet.getInt("birthday_year"));
-            maker.setBookList(resultSet.getString("car_list"));
+            maker.setCarList(resultSet.getString("car_list"));
             return maker;
         };
     }
@@ -59,7 +59,7 @@ public interface IMakerDao extends IDao<Maker> {
             maker.setCountryId(resultSet.getInt("maker_country_id"));
             maker.setCountryName(resultSet.getString("country_name"));
             maker.setBirthYear(resultSet.getInt("birthday_year"));
-            maker.setBookList(resultSet.getString("book_list"));
+            maker.setCarList(resultSet.getString("car_list"));
             return maker;
         };
     }

@@ -17,10 +17,10 @@ public interface ICarDao extends IDao<Car> {
             Car car = new Car();
             car.setId(resultSet.getInt("id"));
             car.setName(resultSet.getString("name"));
-            car.setAuthorId(resultSet.getInt("car_maker_id"));
+            car.setMakerId(resultSet.getInt("car_maker_id"));
             car.setYear(resultSet.getInt("year"));
-            car.setGenreId(resultSet.getInt("car_body_id"));
-            car.setPageCount(resultSet.getInt("mile"));
+            car.setBodyId(resultSet.getInt("car_body_id"));
+            car.setMile(resultSet.getInt("mile"));
             return car;
         };
     }
@@ -56,12 +56,12 @@ public interface ICarDao extends IDao<Car> {
             FullCar car = new FullCar();
             car.setId(resultSet.getInt("id"));
             car.setName(resultSet.getString("name"));
-            car.setAuthorId(resultSet.getInt("car_maker_id"));
-            car.setAuthorName(resultSet.getString("maker_name"));
+            car.setMakerId(resultSet.getInt("car_maker_id"));
+            car.setMakerName(resultSet.getString("maker_name"));
             car.setYear(resultSet.getInt("year"));
-            car.setGenreId(resultSet.getInt("car_body_id"));
-            car.setGenreName(resultSet.getString("body_name"));
-            car.setPageCount(resultSet.getInt("mile"));
+            car.setBodyId(resultSet.getInt("car_body_id"));
+            car.setBodyName(resultSet.getString("body_name"));
+            car.setMile(resultSet.getInt("mile"));
             return car;
         };
     }

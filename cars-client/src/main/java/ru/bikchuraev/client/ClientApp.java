@@ -20,7 +20,7 @@ public class ClientApp {
     private String serverAddress;
 
     @Bean
-    public CarsServerService libraryServerService() {
+    public CarsServerService carsServerService() {
         RmiProxyFactoryBean rmiProxyFactoryBean = new RmiProxyFactoryBean();
         rmiProxyFactoryBean.setServiceUrl(serverAddress);
         rmiProxyFactoryBean.setServiceInterface(CarsServerService.class);

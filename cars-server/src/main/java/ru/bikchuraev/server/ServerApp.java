@@ -70,10 +70,10 @@ public class ServerApp {
     }
 
     @Bean
-    public RmiServiceExporter libraryServerServiceExporter(CarsServerService carsServerService) {
+    public RmiServiceExporter carsServerServiceExporter(CarsServerService carsServerService) {
         RmiServiceExporter serviceExporter = new RmiServiceExporter();
 
-        serviceExporter.setServiceName("library");
+        serviceExporter.setServiceName("cars");
         serviceExporter.setService(carsServerService);
         serviceExporter.setServiceInterface(CarsServerService.class);
         serviceExporter.setRegistryPort(serverPort);

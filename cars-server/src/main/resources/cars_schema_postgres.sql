@@ -8,8 +8,8 @@ drop table body;
 -- TABLE CREATIONS -----------------------------------------------------------------------------
 
 create table body(
-                     id serial not null primary key,
-                     name varchar not null
+                      id serial not null primary key,
+                      name varchar not null
 );
 
 --
@@ -22,21 +22,21 @@ create table country(
 --
 
 create table maker(
-                      id serial not null primary key,
-                      name varchar not null,
-                      maker_country_id integer not null references country (id) ON UPDATE NO ACTION ON DELETE CASCADE,
-                      birthday_year integer not null
+                       id serial not null primary key,
+                       name varchar not null,
+                       maker_country_id integer not null references country (id) ON UPDATE NO ACTION ON DELETE CASCADE,
+                       birthday_year integer not null
 );
 
 --
 
 create table car(
-                    id serial not null primary key,
-                    name varchar not null,
-                    car_maker_id integer not null references maker (id) ON UPDATE NO ACTION ON DELETE CASCADE,
-                    year integer not null,
-                    car_body_id integer not null references body (id) ON UPDATE NO ACTION ON DELETE CASCADE,
-                    mile integer not null
+                     id serial not null primary key,
+                     name varchar not null,
+                     car_maker_id integer not null references maker (id) ON UPDATE NO ACTION ON DELETE CASCADE,
+                     year integer not null,
+                     car_body_id integer not null references body (id) ON UPDATE NO ACTION ON DELETE CASCADE,
+                     mile integer not null
 );
 
 -- DATA INSERTIONS ------------------------------------------------------------------------
