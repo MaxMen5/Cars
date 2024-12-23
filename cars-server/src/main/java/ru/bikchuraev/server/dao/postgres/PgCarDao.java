@@ -24,7 +24,7 @@ public class PgCarDao extends AbstractDao<Car> implements ICarDao {
                 "c.name as name, " +
                 "c.car_maker_id as car_maker_id, " +
                 "m.name as maker_name, " +
-                "c.year as birthday_year, " +
+                "c.year as year, " +
                 "c.car_body_id as car_body_id, " +
                 "b.name as body_name, " +
                 "c.mile as mile " +
@@ -47,7 +47,7 @@ public class PgCarDao extends AbstractDao<Car> implements ICarDao {
                 "c.name as name, " +
                 "c.car_maker_id as car_maker_id, " +
                 "m.name as maker_name, " +
-                "c.year as birthday_year, " +
+                "c.year as year, " +
                 "c.car_body_id as car_body_id, " +
                 "b.name as body_name, " +
                 "c.mile as mile " +
@@ -64,7 +64,7 @@ public class PgCarDao extends AbstractDao<Car> implements ICarDao {
                 "c.name as name, " +
                 "c.car_maker_id as car_maker_id, " +
                 "m.name as maker_name, " +
-                "c.year as birthday_year, " +
+                "c.year as year, " +
                 "c.car_body_id as car_body_id, " +
                 "b.name as body_name, " +
                 "c.mile as mile " +
@@ -107,7 +107,7 @@ public class PgCarDao extends AbstractDao<Car> implements ICarDao {
                 "c.name as name, " +
                 "c.car_maker_id as car_maker_id, " +
                 "m.name as maker_name, " +
-                "c.year as birthday_year, " +
+                "c.year as year, " +
                 "c.car_body_id as car_body_id, " +
                 "b.name as body_name, " +
                 "c.mile as mile " +
