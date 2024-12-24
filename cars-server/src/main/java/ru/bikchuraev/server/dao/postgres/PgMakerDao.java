@@ -47,18 +47,18 @@ public class PgMakerDao extends AbstractDao<Maker> implements IMakerDao {
     }
 
     @Override
-    public void saveMaker(MakerEdit author) {
+    public void saveMaker(MakerEdit maker) {
         update("insert into maker (name, maker_country_id, birthday_year) values ('" +
-                author.getName() + "', " +
-                author.getCountry().getId() + ", " +
-                author.getYear() + ");");
+                maker.getName() + "', " +
+                maker.getCountry().getId() + ", " +
+                maker.getYear() + ");");
     }
 
     @Override
-    public void update(Integer id, MakerEdit author) {
-        update("update maker set name = '" + author.getName() + "', " +
-                "maker_country_id = " + author.getCountry().getId() +
-                ", birthday_year = " + author.getYear() +
+    public void update(Integer id, MakerEdit maker) {
+        update("update maker set name = '" + maker.getName() + "', " +
+                "maker_country_id = " + maker.getCountry().getId() +
+                ", birthday_year = " + maker.getYear() +
                 " where id = " + id);
     }
 }

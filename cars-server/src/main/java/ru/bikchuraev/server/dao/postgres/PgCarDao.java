@@ -56,7 +56,7 @@ public class PgCarDao extends AbstractDao<Car> implements ICarDao {
                 "inner join body b on c.car_body_id = b.id " +
                 "order by c.id", fullRowMapper());
     }
-// TODO дальше не менял
+
     @Override
     public List<FullCar> findNotAllCars(Integer id) {
         return query("select " +
@@ -71,8 +71,8 @@ public class PgCarDao extends AbstractDao<Car> implements ICarDao {
                 "from car c " +
                 "inner join maker m on c.car_maker_id = m.id " +
                 "inner join body b on c.car_body_id = b.id " +
-                "where с.car_maker_id <> " + id +
-                "order by с.id", fullRowMapper());
+                "where c.car_maker_id <> " + id +
+                " order by c.id", fullRowMapper());
     }
 
     @Override
@@ -99,7 +99,7 @@ public class PgCarDao extends AbstractDao<Car> implements ICarDao {
                 ", mile = " + car.getMile() +
                 " where id = " + id);
     }
-//
+
     @Override
     public List<FullCar> findMakerCars(Integer id) {
         return query("select " +
@@ -114,8 +114,8 @@ public class PgCarDao extends AbstractDao<Car> implements ICarDao {
                 "from car c " +
                 "inner join maker m on c.car_maker_id = m.id " +
                 "inner join body b on c.car_body_id = b.id " +
-                "where с.car_maker_id = " + id +
-                "order by с.id", fullRowMapper());
+                "where c.car_maker_id = " + id +
+                " order by c.id", fullRowMapper());
     }
 
     @Override
