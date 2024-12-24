@@ -59,6 +59,7 @@ public final class MainFrame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JButton authorization = new JButton("Войти");
         menuBar.add(authorization);
+        menuBar.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
         authorization.addActionListener(e -> {
             if (!carsServerService.isLoggedIn()) {
